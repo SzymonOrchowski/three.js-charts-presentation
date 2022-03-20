@@ -91,7 +91,7 @@ class Bar
 
     update()
     {   
-        let animationSpeed = 6 // range 1-10
+        let animationSpeed = 8 // range 1-10
         let difference = Math.abs(this.aimHeight - this.instance.scale.y)
 
         if (this.instance.scale.y < this.aimHeight) {
