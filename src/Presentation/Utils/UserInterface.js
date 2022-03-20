@@ -6,10 +6,24 @@ export default class UserInterface extends EventEmitter
     {
         super()
         
-        this.setNavButtons()
+        this.createChartTitle()
+        this.createNavButtons()
     }
 
-    setNavButtons()
+    createChartTitle()
+    {
+        const chartTitle = document.createElement("div")
+        chartTitle.setAttribute('id', 'chart-title')
+
+        document.body.appendChild(chartTitle);
+    }
+
+    updateTitle(chartTitleName)
+    {
+        document.getElementById('chart-title').innerHTML = `<h1>${chartTitleName}</h1>`
+    }
+
+    createNavButtons()
     {
         const navButtonsContainer = document.createElement("div")
         navButtonsContainer.setAttribute('id', 'nav-buttons-container')
