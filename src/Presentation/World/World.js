@@ -27,6 +27,7 @@ class BarChart
     {   
         this.presentation = new Presentation()
         this.scene = this.presentation.scene
+
         this.data = data
 
         this.barPositionX = 0
@@ -54,24 +55,25 @@ class BarChart
 
         this.barChart.scale.set(this.scaleRatio, this.scaleRatio, this.scaleRatio)
 
-        let timeDelay = 0
-        for(let i=0; i < 200; i++){
-            setTimeout(()=>{this.changeRowIndex(0)},timeDelay)
-            setTimeout(()=>{this.changeRowIndex(1)},timeDelay + 1000)
-            setTimeout(()=>{this.changeRowIndex(2)},timeDelay + 2000)
-            timeDelay += 3000
-        }  
-        // setTimeout(()=>{this.changeRowIndex(0)},timeDelay)
-        // setTimeout(()=>{this.changeRowIndex(1)},timeDelay + 1000)
-        // setTimeout(()=>{this.changeRowIndex(2)},timeDelay + 2000) 
+        // Loop presentation
+        // let timeDelay = 0
+        // for(let i=0; i < 200; i++){
+        //     for(let i=0; i < this.data.data.length; i++) {
+        //         setTimeout(()=>{this.changeRowIndex(i)},timeDelay)
+        //         timeDelay += 600
+        //     }
+        // }
     }
 
     changeRowIndex(index)
     {
-        this.rowIndex = index
-        this.barChart.children.forEach((bar, i) => {
-            bar.scale.y = this.data.data[this.rowIndex].values[i] / 10
-        })
+        if (index >= 0 && index < this.data.data.length)
+        {
+            this.rowIndex = index
+            this.barChart.children.forEach((bar, i) => {
+                bar.scale.y = this.data.data[this.rowIndex].values[i] / 10
+            })
+        }
     }
 }
 
@@ -88,10 +90,8 @@ class Bar
 
         const barMaterial = new THREE.MeshStandardMaterial()
 
-
         const instance = new THREE.Mesh(barGeometry, barMaterial)
 
-        console.log(instance)
         instance.scale.y = this.barHeight
         this.barChart.add(instance)
 

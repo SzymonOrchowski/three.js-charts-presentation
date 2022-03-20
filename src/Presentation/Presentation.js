@@ -4,6 +4,7 @@ import Time from './Utils/Time'
 import Camera from './Camera'
 import Renderer from './Renderer'
 import World from './World/World'
+import UserInterface from './Utils/UserInterface'
 
 let instance = null
 
@@ -25,6 +26,7 @@ export default class Presentation
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.world = new World()
+        this.userInterface = new UserInterface()
 
         this.sizes.on('resize', () => {
             this.resize()
@@ -32,6 +34,14 @@ export default class Presentation
 
         this.time.on('tick', () => {
             this.update()
+        })
+
+        this.userInterface.on('prev', () => {
+            this.displayPrevRow()
+        })
+
+        this.userInterface.on('next', () => {
+            this.displayNextRow()
         })
     }
 
@@ -46,5 +56,17 @@ export default class Presentation
         this.camera.update()
         this.world.update()
         this.renderer.update()
+    }
+
+    displayPrevRow()
+    {
+        const currentRowIndex = this.world.chart1.rowIndex
+        this.world.chart1.changeRowIndex(currentRowIndex -1)
+    }
+
+    displayNextRow()
+    {
+        const currentRowIndex = this.world.chart1.rowIndex
+        this.world.chart1.changeRowIndex(currentRowIndex +1)
     }
 }
