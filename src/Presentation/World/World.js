@@ -17,7 +17,7 @@ export default class World
 
     update()
     {
-
+        this.chart1.arrayOfBars.forEach(bar => bar.update())
     }
 }
 
@@ -36,10 +36,12 @@ class BarChart
         this.barChart = new THREE.Group()
         this.scene.add(this.barChart)
 
+        this.arrayOfBars = []
+
         for(let i = 0; i < data.columnNames.length; i++)
         {
             const barHeight = this.data.data[this.rowIndex].values[i] / 10
-            const bar = new Bar(this.barChart, barHeight, this.barPositionX)
+            this.arrayOfBars.push(new Bar(this.barChart, barHeight, this.barPositionX))
             this.barPositionX += 1.5
         }
 
@@ -54,26 +56,14 @@ class BarChart
         this.scaleRatio = 0.5
 
         this.barChart.scale.set(this.scaleRatio, this.scaleRatio, this.scaleRatio)
-
-        // Loop presentation
-        // let timeDelay = 0
-        // for(let i=0; i < 200; i++){
-        //     for(let i=0; i < this.data.data.length; i++) {
-        //         setTimeout(()=>{this.changeRowIndex(i)},timeDelay)
-        //         timeDelay += 600
-        //     }
-        // }
     }
 
     changeRowIndex(index)
-    {
-        if (index >= 0 && index < this.data.data.length)
-        {
-            this.rowIndex = index
-            this.barChart.children.forEach((bar, i) => {
-                bar.scale.y = this.data.data[this.rowIndex].values[i] / 10
-            })
-        }
+    {   
+        this.rowIndex = index
+        this.arrayOfBars.forEach((bar, i) => {
+            bar.aimHeight = this.data.data[this.rowIndex].values[i] / 10
+        })
     }
 }
 
@@ -83,18 +73,32 @@ class Bar
     {
         this.barChart = barChart
         this.barHeight = barHeight
+        this.aimHeight = this.barHeight
         this.barPositionX = barPositionX
 
-        const barGeometry = new THREE.BoxGeometry(1,1,1)
-        barGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0,0.5,0))
+        this.barGeometry = new THREE.BoxGeometry(1,1,1)
+        this.barGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0,0.5,0))
 
-        const barMaterial = new THREE.MeshStandardMaterial()
+        this.barMaterial = new THREE.MeshStandardMaterial()
 
-        const instance = new THREE.Mesh(barGeometry, barMaterial)
+        this.instance = new THREE.Mesh(this.barGeometry, this.barMaterial)
 
-        instance.scale.y = this.barHeight
-        this.barChart.add(instance)
+        this.instance.scale.y = this.barHeight
+        this.barChart.add(this.instance)
 
-        instance.position.x = this.barPositionX
+        this.instance.position.x = this.barPositionX
+    }
+
+    update()
+    {   
+        let animationSpeed = 6 // range 1-10
+        let difference = Math.abs(this.aimHeight - this.instance.scale.y)
+
+        if (this.instance.scale.y < this.aimHeight) {
+            this.instance.scale.y += difference / (101 - (animationSpeed * 10))
+        }
+        if (this.instance.scale.y > this.aimHeight) {
+            this.instance.scale.y -= difference / (101 - (animationSpeed * 10))
+        }
     }
 }
