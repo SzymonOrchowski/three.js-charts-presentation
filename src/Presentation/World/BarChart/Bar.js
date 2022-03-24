@@ -1,9 +1,12 @@
 import * as THREE from 'three'
+import Presentation from '../../Presentation'
+import ValueLabel from './ValueLabel'
 
 export default class Bar
 {
     constructor(barChart, barHeight, barPositionX)
     {
+        this.presentation = new Presentation()
         this.barChart = barChart
         this.barHeight = barHeight
         this.aimHeight = this.barHeight
@@ -32,6 +35,10 @@ export default class Bar
         // Bar modify
         this.instance.scale.y = this.barHeight
         this.instance.position.x = this.barPositionX
+
+        // Value Label
+        this.valueLabel = new ValueLabel(this)
+
     }
 
     update()
@@ -41,9 +48,17 @@ export default class Bar
 
         if (this.instance.scale.y < this.aimHeight) {
             this.instance.scale.y += difference / (101 - (animationSpeed * 10))
+            const value = Math.round(this.instance.scale.y * 10)
+            this.valueLabel.updateValue(value)
+            this.valueLabel.updatePosition()
         }
         if (this.instance.scale.y > this.aimHeight) {
             this.instance.scale.y -= difference / (101 - (animationSpeed * 10))
+            const value = Math.round(this.instance.scale.y * 10)
+            this.valueLabel.updateValue(value)
+            this.valueLabel.updatePosition()
         }
     }
 }
+
+

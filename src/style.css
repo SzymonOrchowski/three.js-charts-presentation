@@ -68,15 +68,32 @@ body
     left: 0;             
     top: 0;
     color: black;
-  }
-  #labels>div {
-    white-space: nowrap;
+}
+
+#labels>div {
+white-space: nowrap;
+position: absolute;  
+left: 0;             
+top: 0;
+border: 1px black solid;
+border-radius: 5px;
+background-color: white;
+padding: 5px;
+font-size:x-small;
+}
+
+#value-labels {
     position: absolute;  
+    z-index: 0;          
     left: 0;             
     top: 0;
-    border: 1px black solid;
-    border-radius: 5px;
-    background-color: white;
-    padding: 5px;
-    font-size:x-small;
-  }
+    color: black;
+}
+
+#value-labels>div {
+white-space: nowrap;
+position: absolute;  
+left: 0;             
+top: 0;
+font-size: small;
+}
