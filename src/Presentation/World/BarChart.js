@@ -56,11 +56,11 @@ class Bar
         this.aimHeight = this.barHeight
         this.barPositionX = barPositionX
 
-        // Bar create
+        // Bar Mesh create
         this.barGeometry = new THREE.BoxGeometry(1,1,1)
         this.barGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0,0.5,0))
 
-        this.barMaterial = new THREE.MeshStandardMaterial()
+        this.barMaterial = new THREE.MeshStandardMaterial({color: 0x5555ff})
 
         this.barMesh = new THREE.Mesh(this.barGeometry, this.barMaterial)
 
