@@ -23,7 +23,7 @@ export default class Environment
         this.scene.add(this.sunLight)
 
         // Light 2
-        this.ambientLight = new THREE.AmbientLight('0xffffff', 2)
+        this.ambientLight = new THREE.AmbientLight('#ffffff', 2)
         this.scene.add(this.ambientLight)
     }
 }
