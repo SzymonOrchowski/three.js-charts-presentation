@@ -48,14 +48,14 @@ export default class Bar
 
         if (this.instance.scale.y < this.aimHeight) {
             this.instance.scale.y += difference / (101 - (animationSpeed * 10))
-            const value = Math.round(this.instance.scale.y * 10)
-            this.valueLabel.updateValue(value)
+            // const value = Math.round(this.instance.scale.y * 10)
+            this.valueLabel.updateValue(this.instance.scale.y * 10)
             this.valueLabel.updatePosition()
         }
         if (this.instance.scale.y > this.aimHeight) {
             this.instance.scale.y -= difference / (101 - (animationSpeed * 10))
-            const value = Math.round(this.instance.scale.y * 10)
-            this.valueLabel.updateValue(value)
+            // const value = Math.round(this.instance.scale.y * 10)
+            this.valueLabel.updateValue(this.instance.scale.y * 10)
             this.valueLabel.updatePosition()
         }
     }
