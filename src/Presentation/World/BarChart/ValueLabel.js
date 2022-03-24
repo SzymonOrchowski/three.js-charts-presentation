@@ -27,7 +27,7 @@ export default class ValueLabel
     updateValue(value)
     {
         this.value = value
-        this.valueLabel.textContent = this.value;
+        this.valueLabel.textContent = Math.round(this.value);
     }
 
     updatePosition()
