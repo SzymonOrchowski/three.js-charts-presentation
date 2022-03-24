@@ -62,7 +62,18 @@ class Bar
 
         this.barMaterial = new THREE.MeshStandardMaterial()
 
-        this.instance = new THREE.Mesh(this.barGeometry, this.barMaterial)
+        this.barMesh = new THREE.Mesh(this.barGeometry, this.barMaterial)
+
+        this.barEdgesGeometry = new THREE.EdgesGeometry(this.barGeometry)
+        this.barEdgesMaterial = new THREE.LineBasicMaterial({color: 0x000000})
+        this.barEdges = new THREE.LineSegments(this.barEdgesGeometry, this.barEdgesMaterial)
+
+        // Grouping
+        this.instance = new THREE.Group()
+
+        this.instance.add(this.barMesh)
+        this.instance.add(this.barEdges)
+        
         this.barChart.add(this.instance)
 
         // Bar modify
