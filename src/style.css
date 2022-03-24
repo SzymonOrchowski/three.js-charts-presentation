@@ -31,25 +31,25 @@ body
 
 .nav-button
 {
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(255,220,180,1);
     padding: 5px 10px 5px 10px;
     margin-left: 10px;
     margin-right: 10px;
-    border: white 1px solid;
+    border: black 1px solid;
     border-radius: 15px;
 }
 
 .nav-button:hover
 {
-    background-color: rgba(255,255,255,1);
+    background-color: rgba(255,220,180,0.7);
 }
 
 #chart-title
 {
     position:absolute;
-    border: white 1px solid;
+    border: black 1px solid;
     border-radius: 15px;
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255,220,180,0.7);
     margin-top: 10px;
     text-align: center;
     padding-top: 13px;
