@@ -30,6 +30,7 @@
 
 export const chart1 = {
     columnNames: ['ABC', 'BCD', 'CDE', 'DEF', 'EFG', 'FGH', 'FGH', 'FGH', 'FGH', 'FGH', 'ABC', 'BCD', 'CDE', 'DEF', 'EFG', 'FGH', 'FGH', 'FGH', 'FGH', 'FGH'],
+    valueLabels: ['0', '20', '40', '60', '80', '100'],
     data: [
         {
             name: 'row1',
