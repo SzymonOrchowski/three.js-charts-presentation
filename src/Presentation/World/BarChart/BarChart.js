@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import Presentation from '../../Presentation'
 import Bar from './Bar'
 import ChartAxis from './ChartAxis'
+import ValueLabel from './ValueLabel'
 
 export default class BarChart
 {
@@ -34,8 +35,15 @@ export default class BarChart
         this.barChart.position.x = -this.horizontalShift
         this.barChart.position.y = -this.verticalShift
 
-         // ChartAxis
+        // ChartAxis
         this.chartAxis = new ChartAxis(this.barChart, this.data, this.barPositionX)
+
+        // Value Labels Update
+        this.arrayOfBars.forEach(bar => {
+            bar.valueLabel.create()
+            bar.valueLabel.updateValue(bar.barHeight * 10)
+            bar.valueLabel.updatePosition()
+        })
     }
 
     changeRowIndex(index)

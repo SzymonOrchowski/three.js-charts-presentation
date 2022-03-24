@@ -35,6 +35,7 @@ export default class ChartAxis
         let initialPositionX = 0;
 
         this.data.columnNames.forEach(column => {
+            // Label Indicator
             this.shortHLineGeometry = new THREE.BoxGeometry(axisThickness, 0.25, axisThickness)
             this.shortHLineMaterial = new THREE.MeshBasicMaterial({color: 0x000000})
             this.shortHLine = new THREE.Mesh(this.shortHLineGeometry, this.shortHLineMaterial)
@@ -80,7 +81,7 @@ export default class ChartAxis
             initialPositionY += 5 / (this.data.valueLabels.length - 1)
 
             // Label
-            this.arrayOfVericalLabels.push(new Label(value, this.shortVLine, 0.025, 0))
+            this.arrayOfVericalLabels.push(new Label(value, this.shortVLine, 0.0125, 0))
         })      
     }
 }
