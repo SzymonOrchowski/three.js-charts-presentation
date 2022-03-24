@@ -81,7 +81,7 @@ export default class ChartAxis
             initialPositionY += 5 / (this.data.valueLabels.length - 1)
 
             // Label
-            this.arrayOfVericalLabels.push(new Label(value, this.shortVLine, 0.0125, 0))
+            this.arrayOfVericalLabels.push(new Label(value, this.shortVLine, 0.015, 0))
         })      
     }
 }
