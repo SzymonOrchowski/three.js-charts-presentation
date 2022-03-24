@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import Presentation from '../../Presentation'
 import Bar from './Bar'
 import ChartAxis from './ChartAxis'
-import ValueLabel from './ValueLabel'
+import ChartBase from './ChartBase'
 
 export default class BarChart
 {
@@ -34,6 +34,12 @@ export default class BarChart
 
         this.barChart.position.x = -this.horizontalShift
         this.barChart.position.y = -this.verticalShift
+
+        // ChartBase
+        this.chartBase = new ChartBase()
+        this.chartBase.instance.position.x = 3 * (0.5 /4)
+        this.chartBase.instance.scale.x = this.barPositionX * 2
+        this.chartBase.instance.position.y = -this.verticalShift - 0.01
 
         // ChartAxis
         this.chartAxis = new ChartAxis(this.barChart, this.data, this.barPositionX)
