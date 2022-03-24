@@ -16,6 +16,8 @@ body
     top: 0;
     left: 0;
     outline: none;
+    background: url('../static/img/BackgroundPaper.jpg');
+    background-size: cover;
 }
 
 #nav-buttons-container
@@ -57,3 +59,24 @@ body
     width: 300px;
     height: 50px;
 }
+
+/* Labels */
+
+#labels {
+    position: absolute;  
+    z-index: 0;          
+    left: 0;             
+    top: 0;
+    color: black;
+  }
+  #labels>div {
+    white-space: nowrap;
+    position: absolute;  
+    left: 0;             
+    top: 0;
+    border: 1px black solid;
+    border-radius: 5px;
+    background-color: white;
+    padding: 5px;
+    font-size:x-small;
+  }
