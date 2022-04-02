@@ -43,4 +43,14 @@ export default class ValueLabel
         
         this.valueLabel.style.transform = `translate(-50%, -50%) translate(${this.valueLabelPositionX}px,${this.valueLabelPositionY}px)`;
     }
+
+    makeInvisible()
+    {
+        this.valueLabel.style.visibility = 'hidden'
+    }
+
+    makeVisible()
+    {
+        this.valueLabel.style.visibility = ''
+    }
 }
