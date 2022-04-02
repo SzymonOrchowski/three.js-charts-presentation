@@ -100,6 +100,12 @@ export default class BarWithDelta
             this.barPosDelta.position.y = this.barMain.scale.y / 2
             this.barHeight = this.barMain.scale.y + this.barPosDelta.scale.y
 
+            if(this.barPosDelta.scale.y < 0.001)
+            {
+                this.barPosDelta.scale.y = 0
+                this.barPosDelta.position.y = 0
+            }
+
             this.valueLabelWithDelta.updateValue((this.barMain.scale.y + this.barPosDelta.scale.y) * 10)
             this.valueLabelWithDelta.updatePosition()
             this.valueLabelWithDelta.updateDelta(this.barPosDelta.scale.y * 10)
@@ -114,6 +120,12 @@ export default class BarWithDelta
             this.barNegDelta.scale.y += this.barHeight - this.barMain.scale.y
             this.barNegDelta.position.y = (this.barMain.scale.y / 2) + 0.001
             this.barHeight = this.barMain.scale.y
+
+            if(this.barNegDelta.scale.y < 0.001)
+            {
+                this.barNegDelta.scale.y = 0
+                this.barNegDelta.position.y = 0
+            }
 
             this.valueLabelWithDelta.updateValue(this.barMain.scale.y * 10)
             this.valueLabelWithDelta.updatePosition()
