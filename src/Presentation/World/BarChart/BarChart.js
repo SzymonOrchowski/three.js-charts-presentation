@@ -58,7 +58,9 @@ export default class BarChart
             bar.valueLabelWithDifference.create()
             bar.valueLabelWithDifference.updateValue(bar.barHeight * 10)
             bar.valueLabelWithDifference.updatePosition()
-            // bar.makeInvisible()
+            bar.valueLabelWithDifference.createDelta()
+            bar.valueLabelWithDifference.updateDelta(0)
+            bar.valueLabelWithDifference.updateDeltaPosition()
         })
 
         this.arrayOfBarsWithDifference.forEach(bar => {

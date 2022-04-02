@@ -105,6 +105,25 @@ body
     font-size: small;
 }
 
+#value-deltas {
+    position: absolute;  
+    z-index: 0;          
+    left: 0;             
+    top: 0;
+    color: black;
+}
+
+#value-deltas>div {
+    white-space: nowrap;
+    position: absolute;  
+    left: 0;             
+    top: 0;
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.7);
+    padding: 2px 4px 2px 4px;
+    font-size: x-small;
+}
+
 #options-container {
     position:absolute;
     top: 0px;
@@ -124,6 +143,8 @@ body
     border: black 1px solid;
     border-radius: 15px;
 }
+
+
 
 .options-button:hover {
     background-color: rgb(168, 125, 76);

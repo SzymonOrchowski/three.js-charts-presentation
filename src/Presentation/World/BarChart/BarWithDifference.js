@@ -102,6 +102,8 @@ export default class BarWithDifference
 
             this.valueLabelWithDifference.updateValue((this.barMain.scale.y + this.barPosDiff.scale.y) * 10)
             this.valueLabelWithDifference.updatePosition()
+            this.valueLabelWithDifference.updateDelta("+"+this.barPosDiff.scale.y * 10)
+            this.valueLabelWithDifference.updateDeltaPosition()
         }
 
         // bar going down
@@ -115,6 +117,8 @@ export default class BarWithDifference
 
             this.valueLabelWithDifference.updateValue(this.barMain.scale.y * 10)
             this.valueLabelWithDifference.updatePosition()
+            this.valueLabelWithDifference.updateDelta("-"+this.barNegDiff.scale.y * 10)
+            this.valueLabelWithDifference.updateDeltaPosition()
         }
     }
 

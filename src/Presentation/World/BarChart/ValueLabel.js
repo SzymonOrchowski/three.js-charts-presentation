@@ -13,16 +13,20 @@ export default class ValueLabel
 
         this.value = referenceBar.barHeight
         this.referenceObj = referenceBar.barMesh
+
+        this.delta
+        this.valueDelta
     }
 
     create()
     {
         this.valueLabel = document.createElement('div');
-        this.htmlElement = document.getElementById('value-labels').appendChild(this.valueLabel)
+        document.getElementById('value-labels').appendChild(this.valueLabel)
 
         this.updateValue(this.value)
         this.updatePosition()
     }
+
 
     updateValue(value)
     {
@@ -41,16 +45,72 @@ export default class ValueLabel
         this.valueLabelPositionX = (this.vector.x *  .5 + .5) * this.sizes.width;
         this.valueLabelPositionY = (this.vector.y * -.5 + .5) * this.sizes.height;
         
-        this.valueLabel.style.transform = `translate(-50%, -50%) translate(${this.valueLabelPositionX}px,${this.valueLabelPositionY}px)`;
+        if(!this.valueDelta)
+        {
+            this.valueLabel.style.transform = `translate(-50%, -50%) translate(${this.valueLabelPositionX}px,${this.valueLabelPositionY}px)`;
+        }
+        else
+        {
+            this.valueLabel.style.transform = `translate(-50%, -50%) translate(${this.valueLabelPositionX}px,${this.valueLabelPositionY - 15}px)`;
+        }
+    }
+
+    createDelta()
+    {
+        this.valueDelta = document.createElement('div');
+        document.getElementById('value-deltas').appendChild(this.valueDelta)
+
+        this.updateValue(this.value)
+        this.updatePosition()
+    }
+
+    updateDelta(delta)
+    {
+        this.delta = delta
+        this.valueDelta.textContent = Math.round(this.delta);
+        if(this.delta > 0)
+        {
+            this.valueDelta.style.color = "green"
+        } 
+        else if (this.delta < 0)
+        {
+            this.valueDelta.style.color = "red"
+        }
+        else
+        {
+            this.valueDelta.style.color = "black"
+        }
+    }
+
+    updateDeltaPosition()
+    {
+        this.vector = new THREE.Vector3();
+        this.referenceObj.updateWorldMatrix(true, false);
+        this.referenceObj.getWorldPosition(this.vector);
+        this.vector.y += this.value / 20 + 2
+        this.vector.project(this.camera.instance);
+        
+        this.valueDeltaPositionX = (this.vector.x *  .5 + .5) * this.sizes.width;
+        this.valueDeltaPositionY = (this.vector.y * -.5 + .5) * this.sizes.height;
+        
+        this.valueDelta.style.transform = `translate(-50%, -50%) translate(${this.valueLabelPositionX}px,${this.valueLabelPositionY + 1}px)`;
     }
 
     makeInvisible()
     {
         this.valueLabel.style.visibility = 'hidden'
+        if(this.valueDelta)
+        {
+            this.valueDelta.style.visibility = `hidden`;
+        }    
     }
 
     makeVisible()
     {
         this.valueLabel.style.visibility = ''
+        if(this.valueDelta)
+        {
+            this.valueDelta.style.visibility = ''
+        }
     }
 }
