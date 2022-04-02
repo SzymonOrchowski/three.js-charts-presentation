@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import Presentation from '../../Presentation'
 import ValueLabel from './ValueLabel'
 
-export default class BarWithDifference
+export default class BarWithDelta
 {
     constructor(barChart, barHeight, barPositionX)
     {
@@ -57,34 +57,34 @@ export default class BarWithDifference
         // Grouping
 
         this.barMain = new THREE.Group()
-        this.barPosDiff = new THREE.Group()
-        this.barNegDiff = new THREE.Group()
+        this.barPosDelta = new THREE.Group()
+        this.barNegDelta = new THREE.Group()
 
         this.barMain.add(this.barMesh)
         this.barMain.add(this.barEdges)
 
-        this.barPosDiff.add(this.barPositiveMesh)
-        this.barPosDiff.add(this.barPositiveEdges)
+        this.barPosDelta.add(this.barPositiveMesh)
+        this.barPosDelta.add(this.barPositiveEdges)
 
-        this.barNegDiff.add(this.barNegativeMesh)
-        this.barNegDiff.add(this.barNegativeEdges)
+        this.barNegDelta.add(this.barNegativeMesh)
+        this.barNegDelta.add(this.barNegativeEdges)
         
         this.barChart.add(this.barMain)
-        this.barChart.add(this.barPosDiff)
-        this.barChart.add(this.barNegDiff)
+        this.barChart.add(this.barPosDelta)
+        this.barChart.add(this.barNegDelta)
 
         // Bar modify
         this.barMain.scale.y = this.barHeight
         this.barMain.position.x = this.barPositionX
 
-        this.barPosDiff.scale.y = 0
-        this.barPosDiff.position.x = this.barPositionX
+        this.barPosDelta.scale.y = 0
+        this.barPosDelta.position.x = this.barPositionX
 
-        this.barNegDiff.scale.y = 0
-        this.barNegDiff.position.x = this.barPositionX
+        this.barNegDelta.scale.y = 0
+        this.barNegDelta.position.x = this.barPositionX
 
         // Value Label
-        this.valueLabelWithDifference = new ValueLabel(this)
+        this.valueLabelWithDelta = new ValueLabel(this)
     }
 
     update()
@@ -94,31 +94,31 @@ export default class BarWithDifference
 
         // bar grow
         if (this.barHeight < this.aimHeight) {
-            this.barNegDiff.scale.y = 0
-            this.barNegDiff.position.y = 0
-            this.barPosDiff.scale.y += difference / (101 - (animationSpeed * 10))
-            this.barPosDiff.position.y = this.barMain.scale.y / 2
-            this.barHeight = this.barMain.scale.y + this.barPosDiff.scale.y
+            this.barNegDelta.scale.y = 0
+            this.barNegDelta.position.y = 0
+            this.barPosDelta.scale.y += difference / (101 - (animationSpeed * 10))
+            this.barPosDelta.position.y = this.barMain.scale.y / 2
+            this.barHeight = this.barMain.scale.y + this.barPosDelta.scale.y
 
-            this.valueLabelWithDifference.updateValue((this.barMain.scale.y + this.barPosDiff.scale.y) * 10)
-            this.valueLabelWithDifference.updatePosition()
-            this.valueLabelWithDifference.updateDelta("+"+this.barPosDiff.scale.y * 10)
-            this.valueLabelWithDifference.updateDeltaPosition()
+            this.valueLabelWithDelta.updateValue((this.barMain.scale.y + this.barPosDelta.scale.y) * 10)
+            this.valueLabelWithDelta.updatePosition()
+            this.valueLabelWithDelta.updateDelta(this.barPosDelta.scale.y * 10)
+            this.valueLabelWithDelta.updateDeltaPosition()
         }
 
         // bar going down
         if (this.barHeight > this.aimHeight) {
-            this.barPosDiff.scale.y = 0
-            this.barPosDiff.position.y = 0
+            this.barPosDelta.scale.y = 0
+            this.barPosDelta.position.y = 0
             this.barMain.scale.y -= difference / (101 - (animationSpeed * 10))
-            this.barNegDiff.scale.y += this.barHeight - this.barMain.scale.y
-            this.barNegDiff.position.y = (this.barMain.scale.y / 2) + 0.001
+            this.barNegDelta.scale.y += this.barHeight - this.barMain.scale.y
+            this.barNegDelta.position.y = (this.barMain.scale.y / 2) + 0.001
             this.barHeight = this.barMain.scale.y
 
-            this.valueLabelWithDifference.updateValue(this.barMain.scale.y * 10)
-            this.valueLabelWithDifference.updatePosition()
-            this.valueLabelWithDifference.updateDelta("-"+this.barNegDiff.scale.y * 10)
-            this.valueLabelWithDifference.updateDeltaPosition()
+            this.valueLabelWithDelta.updateValue(this.barMain.scale.y * 10)
+            this.valueLabelWithDelta.updatePosition()
+            this.valueLabelWithDelta.updateDelta(-this.barNegDelta.scale.y * 10)
+            this.valueLabelWithDelta.updateDeltaPosition()
         }
     }
 
@@ -127,13 +127,13 @@ export default class BarWithDifference
         this.barMain.children.forEach(object => {
             object.visible = true
         })
-        this.barPosDiff.children.forEach(object => {
+        this.barPosDelta.children.forEach(object => {
             object.visible = true
         })
-        this.barNegDiff.children.forEach(object => {
+        this.barNegDelta.children.forEach(object => {
             object.visible = true
         })
-        this.valueLabelWithDifference.makeVisible()  
+        this.valueLabelWithDelta.makeVisible()  
         this.isVisible = true
     }
 
@@ -142,13 +142,13 @@ export default class BarWithDifference
         this.barMain.children.forEach(object => {
             object.visible = false
         })
-        this.barPosDiff.children.forEach(object => {
+        this.barPosDelta.children.forEach(object => {
             object.visible = false
         })
-        this.barNegDiff.children.forEach(object => {
+        this.barNegDelta.children.forEach(object => {
             object.visible = false
         })
-        this.valueLabelWithDifference.makeInvisible()
+        this.valueLabelWithDelta.makeInvisible()
         this.isVisible = false
     }
 }

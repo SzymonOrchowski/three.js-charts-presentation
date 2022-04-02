@@ -56,7 +56,7 @@ export default class UserInterface extends EventEmitter
         showDifferenceButton.appendChild(showDifferenceButtonLabel)
         showDifferenceButton.setAttribute('id', 'showDifference-button')
         showDifferenceButton.setAttribute('class', 'options-button')
-        showDifferenceButton.onclick = () => { this.trigger('showDiff')}
+        showDifferenceButton.onclick = () => { this.trigger('showDeltas')}
         optionsContainer.appendChild(showDifferenceButton)
         
         document.body.appendChild(optionsContainer)

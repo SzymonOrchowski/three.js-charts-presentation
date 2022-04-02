@@ -17,9 +17,9 @@ export default class World
             bar.update()
             bar.valueLabel.updatePosition()
         })
-        this.chart1.arrayOfBarsWithDifference.forEach(bar => {
+        this.chart1.arrayOfBarsWithDeltas.forEach(bar => {
             bar.update()
-            bar.valueLabelWithDifference.updatePosition()
+            bar.valueLabelWithDelta.updatePosition()
         })
         this.chart1.chartAxis.arrayOfHorizontalLabels.forEach(label => label.updatePosition())
         this.chart1.chartAxis.arrayOfVericalLabels.forEach(label => label.updatePosition())

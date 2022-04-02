@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import Presentation from '../../Presentation'
 import Bar from './Bar'
-import BarWithDifference from './BarWithDifference'
+import BarWithDelta from './BarWithDelta'
 import ChartAxis from './ChartAxis'
 import ChartBase from './ChartBase'
 
@@ -21,13 +21,13 @@ export default class BarChart
         this.scene.add(this.barChart)
 
         this.arrayOfBars = []
-        this.arrayOfBarsWithDifference = []
+        this.arrayOfBarsWithDeltas = []
 
         for(let i = 0; i < this.data.columnNames.length; i++)
         {
             const barHeight = this.data.data[this.rowIndex].values[i] / 10
             this.arrayOfBars.push(new Bar(this.barChart, barHeight, this.barPositionX))
-            this.arrayOfBarsWithDifference.push(new BarWithDifference(this.barChart, barHeight, this.barPositionX))
+            this.arrayOfBarsWithDeltas.push(new BarWithDelta(this.barChart, barHeight, this.barPositionX))
             this.barPositionX += 0.75
         }
 
@@ -54,16 +54,16 @@ export default class BarChart
             bar.valueLabel.updatePosition()
         })
 
-        this.arrayOfBarsWithDifference.forEach(bar => {
-            bar.valueLabelWithDifference.create()
-            bar.valueLabelWithDifference.updateValue(bar.barHeight * 10)
-            bar.valueLabelWithDifference.updatePosition()
-            bar.valueLabelWithDifference.createDelta()
-            bar.valueLabelWithDifference.updateDelta(0)
-            bar.valueLabelWithDifference.updateDeltaPosition()
+        this.arrayOfBarsWithDeltas.forEach(bar => {
+            bar.valueLabelWithDelta.create()
+            bar.valueLabelWithDelta.updateValue(bar.barHeight * 10)
+            bar.valueLabelWithDelta.updatePosition()
+            bar.valueLabelWithDelta.createDelta()
+            bar.valueLabelWithDelta.updateDelta(0)
+            bar.valueLabelWithDelta.updateDeltaPosition()
         })
 
-        this.arrayOfBarsWithDifference.forEach(bar => {
+        this.arrayOfBarsWithDeltas.forEach(bar => {
             bar.makeInvisible()
         })
     }
@@ -81,12 +81,12 @@ export default class BarChart
         this.arrayOfBars.forEach((bar, i) => {
             bar.aimHeight = this.data.data[this.rowIndex].values[i] / 10
         })
-        this.arrayOfBarsWithDifference.forEach((bar, i) => {
-            bar.barMain.scale.y = bar.barMain.scale.y + bar.barPosDiff.scale.y
+        this.arrayOfBarsWithDeltas.forEach((bar, i) => {
+            bar.barMain.scale.y = bar.barMain.scale.y + bar.barPosDelta.scale.y
             bar.barHeight = bar.barMain.scale.y
 
-            bar.barPosDiff.scale.y = 0
-            bar.barNegDiff.scale.y = 0
+            bar.barPosDelta.scale.y = 0
+            bar.barNegDelta.scale.y = 0
 
             bar.aimHeight = this.data.data[this.rowIndex].values[i] / 10
         })

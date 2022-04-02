@@ -46,8 +46,8 @@ export default class Presentation
             this.displayNextRow()
         })
 
-        this.userInterface.on('showDiff', () => {
-            this.showDifference()
+        this.userInterface.on('showDeltas', () => {
+            this.showDeltas()
         })
     }
 
@@ -84,14 +84,14 @@ export default class Presentation
         }
     }
 
-    showDifference()
+    showDeltas()
     {
         if(this.world.chart1.arrayOfBars[0].isVisible)
         {
             this.world.chart1.arrayOfBars.forEach(bar => {
                 bar.makeInvisible()
             })
-            this.world.chart1.arrayOfBarsWithDifference.forEach(bar => {
+            this.world.chart1.arrayOfBarsWithDeltas.forEach(bar => {
                 bar.makeVisible()
             })
             document.getElementById('showDifference-button').innerHTML = "Hide the difference to the previous row displayed."
@@ -101,7 +101,7 @@ export default class Presentation
             this.world.chart1.arrayOfBars.forEach(bar => {
                 bar.makeVisible()
             })
-            this.world.chart1.arrayOfBarsWithDifference.forEach(bar => {
+            this.world.chart1.arrayOfBarsWithDeltas.forEach(bar => {
                 bar.makeInvisible()
             })
             document.getElementById('showDifference-button').innerHTML = "Show the difference to the previous row displayed."
