@@ -66,18 +66,21 @@ export default class ValueLabel
 
     updateDelta(delta)
     {
-        this.delta = delta
-        this.valueDelta.textContent = Math.round(this.delta);
+        this.delta = Math.round(delta)
+    
         if(this.delta > 0)
         {
+            this.valueDelta.textContent = "∆ +" + this.delta;
             this.valueDelta.style.color = "green"
         } 
         else if (this.delta < 0)
         {
+            this.valueDelta.textContent = "∆ " + this.delta;
             this.valueDelta.style.color = "red"
         }
         else
         {
+            this.valueDelta.textContent = "∆ " + this.delta;
             this.valueDelta.style.color = "black"
         }
     }
@@ -93,7 +96,7 @@ export default class ValueLabel
         this.valueDeltaPositionX = (this.vector.x *  .5 + .5) * this.sizes.width;
         this.valueDeltaPositionY = (this.vector.y * -.5 + .5) * this.sizes.height;
         
-        this.valueDelta.style.transform = `translate(-50%, -50%) translate(${this.valueLabelPositionX}px,${this.valueLabelPositionY + 1}px)`;
+        this.valueDelta.style.transform = `translate(-50%, -50%) translate(${this.valueLabelPositionX}px,${this.valueLabelPositionY + 2}px)`;
     }
 
     makeInvisible()
