@@ -8,6 +8,8 @@ html,
 body
 {
     overflow: hidden;
+    /* background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 50%, rgb(228, 197, 178) 70%, rgb(44, 69, 136) 100%, rgb(18, 35, 49) 100%); */
 }
 
 .webgl
@@ -17,6 +19,7 @@ body
     left: 0;
     outline: none;
     background: url('../static/img/BackgroundPaper.jpg');
+    /* background: url('../static/img/BackGroundAlpha.png'); */
     background-size: cover;
 }
 
