@@ -11,6 +11,7 @@ export default class Bar
         this.barHeight = barHeight
         this.aimHeight = this.barHeight
         this.barPositionX = barPositionX
+        this.isVisible = true
 
         // Bar Mesh create
         this.barGeometry = new THREE.BoxGeometry(0.5,0.5,0.5)
@@ -63,6 +64,7 @@ export default class Bar
             object.visible = true
         })
         this.valueLabel.makeVisible()  
+        this.isVisible = true
     }
 
     makeInvisible()
@@ -71,6 +73,7 @@ export default class Bar
             object.visible = false
         })
         this.valueLabel.makeInvisible()
+        this.isVisible = false
     }
 }
 

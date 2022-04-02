@@ -11,6 +11,7 @@ export default class BarWithDifference
         this.barHeight = barHeight
         this.aimHeight = this.barHeight
         this.barPositionX = barPositionX
+        this.isVisible = false
 
         // Bar Main - Mesh create
 
@@ -30,7 +31,7 @@ export default class BarWithDifference
         this.barPositiveGeometry = new THREE.BoxGeometry(0.5,0.5,0.5)
         this.barPositiveGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0,0.25,0))
 
-        this.barPositiveMaterial = new THREE.MeshStandardMaterial({color: 0x00AA00})
+        this.barPositiveMaterial = new THREE.MeshStandardMaterial({color: 0x46AB64})
 
         this.barPositiveMesh = new THREE.Mesh(this.barPositiveGeometry, this.barPositiveMaterial)
 
@@ -43,13 +44,13 @@ export default class BarWithDifference
         this.barNegativeGeometry = new THREE.BoxGeometry(0.5,0.5,0.5)
         this.barNegativeGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0,0.25,0))
 
-        this.barNegativeMaterial = new THREE.MeshPhongMaterial({color: 0xAA0000, transparent: true, side: THREE.DoubleSide})
+        this.barNegativeMaterial = new THREE.MeshStandardMaterial({color: 0xAA0000, transparent: true})
         this.barNegativeMaterial.opacity = 0.3
 
         this.barNegativeMesh = new THREE.Mesh(this.barNegativeGeometry, this.barNegativeMaterial)
 
         this.barNegativeEdgesGeometry = new THREE.EdgesGeometry(this.barNegativeGeometry)
-        this.barNegativeEdgesMaterial = new THREE.LineBasicMaterial({color: 0x000000, transparent: true, side: THREE.DoubleSide})
+        this.barNegativeEdgesMaterial = new THREE.LineBasicMaterial({color: 0x000000, transparent: true})
         this.barNegativeEdgesMaterial.opacity = 0.5
         this.barNegativeEdges = new THREE.LineSegments(this.barNegativeEdgesGeometry, this.barNegativeEdgesMaterial)
 
@@ -93,6 +94,8 @@ export default class BarWithDifference
 
         // bar grow
         if (this.barHeight < this.aimHeight) {
+            this.barNegDiff.scale.y = 0
+            this.barNegDiff.position.y = 0
             this.barPosDiff.scale.y += difference / (101 - (animationSpeed * 10))
             this.barPosDiff.position.y = this.barMain.scale.y / 2
             this.barHeight = this.barMain.scale.y + this.barPosDiff.scale.y
@@ -103,9 +106,11 @@ export default class BarWithDifference
 
         // bar going down
         if (this.barHeight > this.aimHeight) {
+            this.barPosDiff.scale.y = 0
+            this.barPosDiff.position.y = 0
             this.barMain.scale.y -= difference / (101 - (animationSpeed * 10))
             this.barNegDiff.scale.y += this.barHeight - this.barMain.scale.y
-            this.barNegDiff.position.y = this.barMain.scale.y / 2
+            this.barNegDiff.position.y = (this.barMain.scale.y / 2) + 0.001
             this.barHeight = this.barMain.scale.y
 
             this.valueLabelWithDifference.updateValue(this.barMain.scale.y * 10)
@@ -115,18 +120,32 @@ export default class BarWithDifference
 
     makeVisible()
     {
-        this.instance.children.forEach(object => {
+        this.barMain.children.forEach(object => {
             object.visible = true
         })
-        this.valueLabel.makeVisible()  
+        this.barPosDiff.children.forEach(object => {
+            object.visible = true
+        })
+        this.barNegDiff.children.forEach(object => {
+            object.visible = true
+        })
+        this.valueLabelWithDifference.makeVisible()  
+        this.isVisible = true
     }
 
     makeInvisible()
     {
-        this.instance.children.forEach(object => {
+        this.barMain.children.forEach(object => {
             object.visible = false
         })
-        this.valueLabel.makeInvisible()
+        this.barPosDiff.children.forEach(object => {
+            object.visible = false
+        })
+        this.barNegDiff.children.forEach(object => {
+            object.visible = false
+        })
+        this.valueLabelWithDifference.makeInvisible()
+        this.isVisible = false
     }
 }
 

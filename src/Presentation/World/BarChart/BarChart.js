@@ -54,28 +54,38 @@ export default class BarChart
             bar.valueLabel.updatePosition()
         })
 
-        this.arrayOfBars.forEach(bar => {
-            bar.makeInvisible()
-        })
-
         this.arrayOfBarsWithDifference.forEach(bar => {
             bar.valueLabelWithDifference.create()
             bar.valueLabelWithDifference.updateValue(bar.barHeight * 10)
             bar.valueLabelWithDifference.updatePosition()
+            // bar.makeInvisible()
+        })
+
+        this.arrayOfBarsWithDifference.forEach(bar => {
+            bar.makeInvisible()
         })
     }
 
     changeRowIndex(index)
     {   
+        let upORdown = 0
+        if (index > this.rowIndex) {
+            upORdown = -1
+        }
+        if (index < this.rowIndex) {
+            upORdown = 1
+        }
         this.rowIndex = index
         this.arrayOfBars.forEach((bar, i) => {
             bar.aimHeight = this.data.data[this.rowIndex].values[i] / 10
         })
         this.arrayOfBarsWithDifference.forEach((bar, i) => {
-            bar.barNegDiff.scale.y = 0
             bar.barMain.scale.y = bar.barMain.scale.y + bar.barPosDiff.scale.y
             bar.barHeight = bar.barMain.scale.y
+
             bar.barPosDiff.scale.y = 0
+            bar.barNegDiff.scale.y = 0
+
             bar.aimHeight = this.data.data[this.rowIndex].values[i] / 10
         })
     }
