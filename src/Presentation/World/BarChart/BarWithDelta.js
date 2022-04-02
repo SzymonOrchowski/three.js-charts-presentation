@@ -164,5 +164,3 @@ export default class BarWithDelta
         this.isVisible = false
     }
 }
-
-
