@@ -8,6 +8,7 @@ export default class UserInterface extends EventEmitter
         
         this.createChartTitle()
         this.createNavButtons()
+        this.createOptions()
     }
 
     createChartTitle()
@@ -43,5 +44,22 @@ export default class UserInterface extends EventEmitter
         navButtonsContainer.appendChild(nextButton)
 
         document.body.appendChild(navButtonsContainer);
+    }
+
+    createOptions()
+    {
+        const optionsContainer = document.createElement("div")
+        optionsContainer.setAttribute('id', 'options-container')
+
+        const showDifferenceButton = document.createElement("BUTTON")
+        const showDifferenceButtonLabel = document.createTextNode('Show the difference to the previous row displayed.')
+        showDifferenceButton.appendChild(showDifferenceButtonLabel)
+        showDifferenceButton.setAttribute('id', 'showDifference-button')
+        showDifferenceButton.setAttribute('class', 'options-button')
+        showDifferenceButton.onclick = () => { this.trigger('showDiff')}
+        optionsContainer.appendChild(showDifferenceButton)
+        
+        document.body.appendChild(optionsContainer)
+
     }
 }

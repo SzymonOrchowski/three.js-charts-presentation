@@ -58,7 +58,7 @@ body
     margin-top: 10px;
     text-align: center;
     padding-top: 13px;
-    left: calc(50% - 150px);
+    left: 50px;
     width: 300px;
     height: 50px;
 }
@@ -74,16 +74,16 @@ body
 }
 
 #labels>div {
-white-space: nowrap;
-position: absolute;  
-left: 0;             
-top: 0;
-border: 1px solid;
-border-color: rgb(197, 169, 136);
-border-radius: 5px;
-background-color: white;
-padding: 5px;
-font-size:x-small;
+    white-space: nowrap;
+    position: absolute;  
+    left: 0;             
+    top: 0;
+    border: 1px solid;
+    border-color: rgb(197, 169, 136);
+    border-radius: 5px;
+    background-color: white;
+    padding: 5px;
+    font-size:x-small;
 }
 
 #value-labels {
@@ -95,12 +95,36 @@ font-size:x-small;
 }
 
 #value-labels>div {
-white-space: nowrap;
-position: absolute;  
-left: 0;             
-top: 0;
-border-radius: 5px;
-background-color: rgba(255,255,255,0.7);
-padding: 2px 4px 2px 4px;
-font-size: small;
+    white-space: nowrap;
+    position: absolute;  
+    left: 0;             
+    top: 0;
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.7);
+    padding: 2px 4px 2px 4px;
+    font-size: small;
+}
+
+#options-container {
+    position:absolute;
+    top: 0px;
+    left: calc(100% - 300px);
+    margin-top: 10px;
+    text-align: center;
+    padding-top: 13px;
+    width: 300px;
+    height: 50px;
+}
+
+.options-button {
+    background-color: rgba(255,220,180,1);
+    padding: 5px 10px 5px 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: black 1px solid;
+    border-radius: 15px;
+}
+
+.options-button:hover {
+    background-color: rgb(168, 125, 76);
 }

@@ -45,6 +45,10 @@ export default class Presentation
         this.userInterface.on('next', () => {
             this.displayNextRow()
         })
+
+        this.userInterface.on('showDiff', () => {
+            this.showDifference()
+        })
     }
 
     resize()
@@ -77,6 +81,30 @@ export default class Presentation
             const currentRowIndex = this.world.chart1.rowIndex
             this.userInterface.updateTitle(this.world.chart1.data.data[currentRowIndex + 1].name)
             this.world.chart1.changeRowIndex(currentRowIndex +1)
+        }
+    }
+
+    showDifference()
+    {
+        if(this.world.chart1.arrayOfBars[0].isVisible)
+        {
+            this.world.chart1.arrayOfBars.forEach(bar => {
+                bar.makeInvisible()
+            })
+            this.world.chart1.arrayOfBarsWithDifference.forEach(bar => {
+                bar.makeVisible()
+            })
+            document.getElementById('showDifference-button').innerHTML = "Hide the difference to the previous row displayed."
+        } 
+        else
+        {
+            this.world.chart1.arrayOfBars.forEach(bar => {
+                bar.makeVisible()
+            })
+            this.world.chart1.arrayOfBarsWithDifference.forEach(bar => {
+                bar.makeInvisible()
+            })
+            document.getElementById('showDifference-button').innerHTML = "Show the difference to the previous row displayed."
         }
     }
 }
