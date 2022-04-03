@@ -100,7 +100,7 @@ export default class Presentation
             this.world.chart1.arrayOfBarsWithDeltas.forEach(bar => {
                 bar.makeVisible()
             })
-            document.getElementById('showDifference-button').innerHTML = "Hide the difference to the previous row displayed."
+            document.getElementById('showDifference-button').innerHTML = "Hide the difference from the previous row displayed."
         } 
         else
         {
@@ -110,7 +110,7 @@ export default class Presentation
             this.world.chart1.arrayOfBarsWithDeltas.forEach(bar => {
                 bar.makeInvisible()
             })
-            document.getElementById('showDifference-button').innerHTML = "Show the difference to the previous row displayed."
+            document.getElementById('showDifference-button').innerHTML = "Show the difference from the previous row displayed."
         }
     }
 }
