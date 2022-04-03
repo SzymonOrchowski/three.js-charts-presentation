@@ -13,6 +13,7 @@ export default class UserInterface extends EventEmitter
         this.createChartTitle()
         this.createNavButtons()
         this.createOptions()
+        this.createGitHubLink()
         this.createDataSpreadsheet(this.data)
     }
 
@@ -164,8 +165,12 @@ export default class UserInterface extends EventEmitter
         document.getElementById('spreadsheet-show-button').style.visibility = ''
     }
 
-    // createGitHubLink()
-    // {
-
-    // }
+    createGitHubLink()
+    {
+        const gitHubButton = document.createElement('button')
+        gitHubButton.setAttribute('id', 'gitHub-button')
+        gitHubButton.onclick = () => {window.open('https://github.com/SzymonOrchowski/three.js-charts-presentation')}
+        gitHubButton.innerHTML = '<img src="img/GithubIcon.png" id="gitHub-img"></img>'
+        document.body.appendChild(gitHubButton)
+    }
 }
