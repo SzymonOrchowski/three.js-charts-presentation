@@ -1,7 +1,7 @@
 import Environment from './Environment'
 import BarChart from "./BarChart/BarChart"
 
-import { chart1 } from '../../data/data'
+import { chart1, chart2 } from '../../data/data'
 
 export default class World
 {
