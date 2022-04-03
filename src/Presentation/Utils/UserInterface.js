@@ -58,7 +58,7 @@ export default class UserInterface extends EventEmitter
         optionsContainer.setAttribute('id', 'options-container')
 
         const showDifferenceButton = document.createElement("BUTTON")
-        const showDifferenceButtonLabel = document.createTextNode('Show the difference to the previous row displayed.')
+        const showDifferenceButtonLabel = document.createTextNode('Show the difference from the previous row displayed.')
         showDifferenceButton.appendChild(showDifferenceButtonLabel)
         showDifferenceButton.setAttribute('id', 'showDifference-button')
         showDifferenceButton.setAttribute('class', 'options-button')
