@@ -127,7 +127,7 @@ body
 #options-container {
     position:absolute;
     top: 0px;
-    left: calc(100% - 300px);
+    left: calc(100% - 330px);
     margin-top: 10px;
     text-align: center;
     padding-top: 13px;
@@ -143,8 +143,6 @@ body
     border: black 1px solid;
     border-radius: 15px;
 }
-
-
 
 .options-button:hover {
     background-color: rgb(168, 125, 76);
@@ -208,7 +206,7 @@ body
 #spreadsheet-show-button {
     position:absolute;
     top: calc(100% - 60px);
-    left: 30px;
+    left: 40px;
     width: 100px;
     height: 50px;
     background-color: rgba(255,220,180,1);
@@ -221,5 +219,26 @@ body
 
 #spreadsheet-show-button:hover {
     background-color: rgb(168, 125, 76)
+}
+
+#gitHub-button {
+    position:absolute;
+    top: calc(100% - 80px);
+    left: calc(100% - 120px);
+    background-color: rgba(255,220,180,1);
+    padding: 5px 10px 5px 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: black 1px solid;
+    border-radius: 15px;
+}
+
+#gitHub-button:hover {
+    background-color: rgb(168, 125, 76)
+}
+
+#gitHub-img {
+    margin-top: 5px;
+    width: 50px
 }
 
