@@ -12,6 +12,7 @@ export default class Bar
         this.aimHeight = this.barHeight
         this.barPositionX = barPositionX
         this.isVisible = true
+        this.isAnimating = false
 
         // Bar Mesh create
         this.barGeometry = new THREE.BoxGeometry(0.5,0.5,0.5)
@@ -46,6 +47,8 @@ export default class Bar
         let animationSpeed = 8 // range 1-10
         let difference = Math.abs(this.aimHeight - this.instance.scale.y)
 
+        difference > 0.01 ? this.isAnimating = true : this.isAnimating = false
+        
         if (this.instance.scale.y < this.aimHeight) {
             this.instance.scale.y += difference / (101 - (animationSpeed * 10))
             this.valueLabel.updateValue(this.instance.scale.y * 10)

@@ -68,9 +68,12 @@ export default class Presentation
     {
         if (this.world.chart1.rowIndex > 0)
         {
-            const currentRowIndex = this.world.chart1.rowIndex
-            this.userInterface.updateTitle(this.world.chart1.data.data[currentRowIndex - 1].name)
-            this.world.chart1.changeRowIndex(currentRowIndex -1)
+            if(!this.world.chart1.arrayOfBars.some(bar => bar.isAnimating))
+            {
+                const currentRowIndex = this.world.chart1.rowIndex
+                this.userInterface.updateTitle(this.world.chart1.data.data[currentRowIndex - 1].name)
+                this.world.chart1.changeRowIndex(currentRowIndex -1)
+            }
         }
     }
 
@@ -78,9 +81,12 @@ export default class Presentation
     {
         if (this.world.chart1.rowIndex < this.world.chart1.data.data.length - 1)
         {
-            const currentRowIndex = this.world.chart1.rowIndex
-            this.userInterface.updateTitle(this.world.chart1.data.data[currentRowIndex + 1].name)
-            this.world.chart1.changeRowIndex(currentRowIndex +1)
+            if(!this.world.chart1.arrayOfBars.some(bar => bar.isAnimating))
+            {
+                const currentRowIndex = this.world.chart1.rowIndex
+                this.userInterface.updateTitle(this.world.chart1.data.data[currentRowIndex + 1].name)
+                this.world.chart1.changeRowIndex(currentRowIndex +1)
+            }
         }
     }
 
