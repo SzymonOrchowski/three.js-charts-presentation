@@ -78,6 +78,17 @@ export default class Bar
         this.valueLabel.makeInvisible()
         this.isVisible = false
     }
+
+    // disposeBar()
+    // {
+    //     this.barGeometry.dispose()
+    //     this.barMaterial.dispose()
+    //     this.instance.remove(this.barMesh)
+    //     this.barEdgesGeometry.dispose()
+    //     this.barEdgesMaterial.dispose()
+    //     this.instance.remove(this.barEdges)
+    //     this.barChart.remove(this.instance)
+    // }
 }
 
 
