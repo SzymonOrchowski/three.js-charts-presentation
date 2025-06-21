@@ -20,7 +20,12 @@ export function Bar({ position, height, color }) {
         scale-y={animatedProps.springHeight}
       >
         <boxGeometry args={[0.5, 1, 0.5]} />
-        <meshStandardMaterial color={color} />
+        <meshStandardMaterial 
+          color={color} 
+          emissive={color}
+          emissiveIntensity={1.5}
+          toneMapped={false}
+        />
         <Edges color="black" />
         {/* Add the label as a child of the mesh */}
         <ValueLabel animatedProps={animatedProps} />

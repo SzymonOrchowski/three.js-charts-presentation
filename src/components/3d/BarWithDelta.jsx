@@ -28,7 +28,7 @@ export function BarWithDelta({ previousValue, currentValue }) {
       <animated.group scale-y={baseHeight}>
         <mesh position-y={0.5} castShadow>
           <boxGeometry args={[0.5, 1, 0.5]} />
-          <meshStandardMaterial color="#5555ff" />
+          <meshStandardMaterial color="#5555ff" emissive="#5555ff" emissiveIntensity={1.5} toneMapped={false}/>
           <Edges color="black" />
         </mesh>
       </animated.group>
@@ -40,7 +40,7 @@ export function BarWithDelta({ previousValue, currentValue }) {
             <animated.group position-y={baseHeight.to(h => h + 0.001)} scale-y={posDeltaHeight}>
                 <mesh position-y={0.5} castShadow>
                     <boxGeometry args={[0.5, 1, 0.5]} />
-                    <meshStandardMaterial color="#46AB64" />
+                    <meshStandardMaterial color="#46AB64" emissive="#46AB64" emissiveIntensity={1.5} toneMapped={false}/>
                     <Edges color="black" />
                 </mesh>
             </animated.group>
@@ -55,8 +55,8 @@ export function BarWithDelta({ previousValue, currentValue }) {
         <animated.group position-y={baseHeight.to(h => h + 0.001)} scale-y={negDeltaHeight}>
             <mesh position-y={0.5}>
                 <boxGeometry args={[0.5, 1, 0.5]} />
-                <meshStandardMaterial color="#AA0000" transparent opacity={0.3} />
-                <Edges color="black" transparent opacity={0.5} />
+                <meshStandardMaterial color="#AA0000" transparent emissive="#aa0000" emissiveIntensity={0.3} opacity={0.3}/>
+                <Edges color="#aa0000" transparent opacity={0.5} />
             </mesh>
         </animated.group>
         : 

@@ -12,19 +12,22 @@ export function TopBar({ activeView, setActiveView }) {
     dispatch(loadPreset(e.target.value));
   };
 
+  // Dark mode styles for the tabs
   const baseClasses = "px-4 py-2 rounded-md text-sm font-medium transition-colors";
-  const activeClasses = "bg-gray-900 text-white";
-  const inactiveClasses = "text-gray-500 hover:bg-gray-200 hover:text-gray-900";
+  const activeClasses = "bg-blue-600 text-white";
+  const inactiveClasses = "text-gray-300 hover:bg-gray-700";
 
   return (
-    <nav className="w-full p-4 bg-white border-b border-gray-200 flex justify-center items-center relative">
+    // Updated nav background and border color
+    <nav className="w-full p-2 bg-gray-900 border-b border-gray-700 flex justify-center items-center relative">
       <div className="absolute left-4">
-        <label htmlFor="preset-select" className="mr-2 text-sm font-medium text-gray-600">Load Preset:</label>
+        <label htmlFor="preset-select" className="mr-2 text-sm font-medium text-gray-400">Load Preset:</label>
+        {/* Updated select styles for dark mode */}
         <select 
           id="preset-select" 
           value={activePresetName} 
           onChange={handlePresetChange} 
-          className="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900"
+          className="rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
         >
           {presetNames.map(name => (
             <option key={name} value={name}>{name}</option>
@@ -32,7 +35,8 @@ export function TopBar({ activeView, setActiveView }) {
         </select>
       </div>
 
-      <div className="flex space-x-4 p-1 bg-gray-100 rounded-lg">
+      {/* Updated tab container background */}
+      <div className="flex space-x-2 p-1 bg-gray-800 rounded-lg">
         <button
           onClick={() => setActiveView('spreadsheet')}
           className={`${baseClasses} ${activeView === 'spreadsheet' ? activeClasses : inactiveClasses}`}
