@@ -1,10 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import * as presets from '../data/data'; // Import all exports from data.js
+import presets from '../data/data.json'; // Import the new JSON file
+
+// Get the name of the first preset to use as the default
+const initialPresetName = Object.keys(presets)[0];
 
 const initialState = {
-  activeChart: 'chart1',
-  chart1: presets.chart1,
-  chart2: presets.chart2,
+  presetNames: Object.keys(presets), // An array of preset names for the UI
+  activePresetName: initialPresetName,
+  currentChartData: presets[initialPresetName], // The actual data object for the active preset
 };
 
 export const chartSlice = createSlice({
@@ -12,65 +15,61 @@ export const chartSlice = createSlice({
   initialState,
   reducers: {
     loadPreset: (state, action) => {
-      const { chartId, presetName } = action.payload;
-      if (presets[presetName]) {
-        state[chartId] = presets[presetName];
+      const presetName = action.payload;
+      if (state.presetNames.includes(presetName)) {
+        state.activePresetName = presetName;
+        state.currentChartData = presets[presetName];
       }
     },
-    // Accepts strings to allow for invalid input to be stored and validated in the UI
     updateCellValue: (state, action) => {
-      const { chartId, rowIndex, valueIndex, newValue } = action.payload;
-      state[chartId].data[rowIndex].values[valueIndex] = newValue;
+      const { rowIndex, valueIndex, newValue } = action.payload;
+      state.currentChartData.data[rowIndex].values[valueIndex] = newValue;
     },
     updateColumnName: (state, action) => {
-      const { chartId, columnIndex, newName } = action.payload;
-      state[chartId].columnNames[columnIndex] = newName;
+      const { columnIndex, newName } = action.payload;
+      state.currentChartData.columnNames[columnIndex] = newName;
     },
     updateRowName: (state, action) => {
-      const { chartId, rowIndex, newName } = action.payload;
-      state[chartId].data[rowIndex].name = newName;
+      const { rowIndex, newName } = action.payload;
+      state.currentChartData.data[rowIndex].name = newName;
     },
     addColumn: (state, action) => {
-        const { chartId, columnIndex } = action.payload;
-        // Insert new column name
-        state[chartId].columnNames.splice(columnIndex, 0, 'New Column');
-        // Insert a default value in each row for the new column
-        state[chartId].data.forEach(row => {
-            row.values.splice(columnIndex, 0, '0');
-        });
+      const { columnIndex } = action.payload;
+      state.currentChartData.columnNames.splice(columnIndex, 0, 'New Column');
+      state.currentChartData.data.forEach(row => {
+        row.values.splice(columnIndex, 0, '0');
+      });
     },
     deleteColumn: (state, action) => {
-        const { chartId, columnIndex } = action.payload;
-        // Prevent deleting the last column
-        if (state[chartId].columnNames.length > 1) {
-            state[chartId].columnNames.splice(columnIndex, 1);
-            state[chartId].data.forEach(row => {
-                row.values.splice(columnIndex, 1);
-            });
-        }
+      const { columnIndex } = action.payload;
+      if (state.currentChartData.columnNames.length > 1) {
+        state.currentChartData.columnNames.splice(columnIndex, 1);
+        state.currentChartData.data.forEach(row => {
+          row.values.splice(columnIndex, 1);
+        });
+      }
     },
     addRow: (state, action) => {
-        const { chartId, rowIndex } = action.payload;
-        const newRow = {
-            name: 'New Row',
-            values: Array(state[chartId].columnNames.length).fill('0')
-        };
-        state[chartId].data.splice(rowIndex, 0, newRow);
+      const { rowIndex } = action.payload;
+      const newRow = {
+        name: 'New Row',
+        values: Array(state.currentChartData.columnNames.length).fill('0')
+      };
+      state.currentChartData.data.splice(rowIndex, 0, newRow);
     },
     deleteRow: (state, action) => {
-        const { chartId, rowIndex } = action.payload;
-         // Prevent deleting the last row
-        if (state[chartId].data.length > 1) {
-            state[chartId].data.splice(rowIndex, 1);
-        }
+      const { rowIndex } = action.payload;
+      if (state.currentChartData.data.length > 1) {
+        state.currentChartData.data.splice(rowIndex, 1);
+      }
     }
   },
 });
 
-export const { 
+export const {
   loadPreset,
-  updateCellValue, 
-  updateColumnName, 
+  updateCellValue,
+  updateColumnName,
   updateRowName,
   addColumn,
   deleteColumn,
