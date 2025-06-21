@@ -8,12 +8,16 @@ const initialState = {
   presetNames: Object.keys(presets), // An array of preset names for the UI
   activePresetName: initialPresetName,
   currentChartData: presets[initialPresetName], // The actual data object for the active preset
+  isDifferenceMode: false,
 };
 
 export const chartSlice = createSlice({
   name: 'chart',
   initialState,
   reducers: {
+    toggleDifferenceMode: (state) => {
+      state.isDifferenceMode = !state.isDifferenceMode;
+    },
     loadPreset: (state, action) => {
       const presetName = action.payload;
       if (state.presetNames.includes(presetName)) {
@@ -67,6 +71,7 @@ export const chartSlice = createSlice({
 });
 
 export const {
+  toggleDifferenceMode,
   loadPreset,
   updateCellValue,
   updateColumnName,
