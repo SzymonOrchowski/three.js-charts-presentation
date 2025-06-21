@@ -1,23 +1,50 @@
 "use client";
-import { Canvas } from '@react-three/fiber';
 
-/**
- * Renders the 3D visualization view.
- */
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Environment } from '@react-three/drei';
+import { Chart } from './Chart'; // Import our new Chart component
+
 export function Visualization() {
-  // We will build the 3D scene here
+  const [currentRowIndex, setCurrentRowIndex] = useState(0);
+  const dataRowCount = useSelector((state) => state.chart.currentChartData?.data.length || 0);
+
+  const handleNext = () => {
+    setCurrentRowIndex((prevIndex) => Math.min(prevIndex + 1, dataRowCount - 1));
+  };
+
+  const handlePrev = () => {
+    setCurrentRowIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+  };
+
   return (
-    <div className="w-full h-full">
-        <Canvas>
-            {/* Your 3D components will go here */}
-            <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} />
-            {/* Placeholder box */}
-            <mesh>
-                <boxGeometry args={[1, 1, 1]} />
-                <meshStandardMaterial color="orange" />
-            </mesh>
-        </Canvas>
+    <div className="w-full h-full relative">
+      {/* UI for navigating between data rows */}
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex gap-4">
+        <button onClick={handlePrev} disabled={currentRowIndex === 0} className="px-4 py-2 bg-white rounded-md shadow disabled:opacity-50">Prev</button>
+        <button onClick={handleNext} disabled={currentRowIndex >= dataRowCount - 1} className="px-4 py-2 bg-white rounded-md shadow disabled:opacity-50">Next</button>
+      </div>
+
+      <Canvas
+        shadows
+        camera={{
+          position: [0, 2, 12],
+          fov: 35,
+        }}
+      >
+        <ambientLight intensity={1.5} />
+        <directionalLight
+          position={[3.5, 5, 4]}
+          intensity={3}
+          castShadow
+        />
+        <Environment preset="city" />
+        <OrbitControls makeDefault />
+
+        {/* Render the chart with the currently selected row index */}
+        <Chart rowIndex={currentRowIndex} />
+      </Canvas>
     </div>
   );
 }
