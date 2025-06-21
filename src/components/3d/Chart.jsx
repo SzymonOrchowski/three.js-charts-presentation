@@ -3,8 +3,9 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Bar } from './Bar';
-import { AxesAndLabels } from './AxesAndLabels'; // Import the new component
-import { BarWithDelta } from './BarWithDelta'; // Import the new component
+import { AxesAndLabels } from './AxesAndLabels';
+import { BarWithDelta } from './BarWithDelta';
+import { Edges } from '@react-three/drei';
 
 export function Chart({ rowIndex }) {
   const { currentChartData, isDifferenceMode } = useSelector((state) => state.chart);
@@ -14,7 +15,9 @@ export function Chart({ rowIndex }) {
 
     const BAR_SPACING = 0.75;
     const values = currentChartData.data[rowIndex].values;
+    // The chart's total width is the number of gaps between bars * spacing
     const chartWidth = (values.length - 1) * BAR_SPACING;
+    // The shift required to center the chart at the origin
     const horizontalShift = chartWidth / 2;
 
     return { 
@@ -22,16 +25,23 @@ export function Chart({ rowIndex }) {
       columnNames: currentChartData.columnNames,
       valueLabels: currentChartData.valueLabels,
       BAR_SPACING, 
-      horizontalShift 
+      horizontalShift,
+      chartWidth, // Pass the calculated width for the base
     };
   }, [currentChartData, rowIndex]);
 
-  if (!chartData) return null; 
+  if (!chartData) return null;
 
   const previousRowData = currentChartData.data[rowIndex - 1];
 
   return (
     <group position={[-chartData.horizontalShift, -2.5, 0]}>
+      <mesh position={[chartData.horizontalShift, -0.01, 0]}>
+        <boxGeometry args={[chartData.chartWidth + 0.75, 0.01, 0.6]} />
+        <meshBasicMaterial color="#777777" />
+        <Edges color="black" transparent opacity={0.5} />
+      </mesh>
+
       <AxesAndLabels 
         columnNames={chartData.columnNames}
         valueLabels={chartData.valueLabels}

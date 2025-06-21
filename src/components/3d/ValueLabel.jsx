@@ -11,16 +11,16 @@ import { animated } from '@react-spring/web';
  */
 export function ValueLabel({ animatedProps }) {
   return (
-    <Html position={[0, 0.5, 0]}>
+    <Html position={[-0.15, 0.51, 0]}>
       <animated.div
-        className="px-2 py-1 text-xs text-black bg-white/70 rounded-md"
+        className="px-2 py-1 text-xs text-black bg-white/70 rounded-md border border-slate-300"
         style={{
           opacity: animatedProps.springHeight.to(h => (h > 0.1 ? 1 : 0)),
           transform: animatedProps.springHeight.to(h => `translateY(-${h * 5}px)`),
         }}
       >
         <animated.span>
-          {animatedProps.springHeight.to(h => Math.round(h * 10))}
+          {animatedProps.springHeight.to(h => h.toFixed(2))}
         </animated.span>
       </animated.div>
     </Html>
