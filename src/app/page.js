@@ -13,8 +13,13 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen w-screen bg-white">
-      <TopBar activeView={activeView} setActiveView={setActiveView} />
-      <main className="flex-grow">
+      {/* By adding relative positioning and a z-index, we ensure the TopBar and its children (like the tooltip) are on a higher layer. */}
+      <div className="relative z-50">
+        <TopBar activeView={activeView} setActiveView={setActiveView} />
+      </div>
+      
+      {/* This main content area now sits on a lower layer. */}
+      <main className="flex-grow relative z-0">
         {activeView === 'spreadsheet' && <Spreadsheet />}
         {activeView === 'visualization' && <Visualization />}
       </main>

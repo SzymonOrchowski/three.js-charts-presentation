@@ -34,7 +34,7 @@ export function AxesAndLabels({ columnNames, valueLabels, barSpacing }) {
         const xPos = index * barSpacing;
         return (
           <Text
-            key={name}
+            key={`col-label-${index}`}
             position={[xPos, -0.1, 0]}
             fontSize={0.2}
             color="white"
@@ -51,7 +51,7 @@ export function AxesAndLabels({ columnNames, valueLabels, barSpacing }) {
       {valueLabels.map((label, index) => {
         const yPos = index * (5 / (valueLabels.length - 1));
         return (
-          <Billboard key={label} position={[-0.8, yPos, 0]}>
+          <Billboard key={`val-label-${index}`} position={[-0.8, yPos, 0]}>
             <Text
               fontSize={0.2}
               color="white"
