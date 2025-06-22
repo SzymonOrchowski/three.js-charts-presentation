@@ -27,8 +27,8 @@ export function DeltaLabel({ delta }) {
 
   return (
     <Text
-      position={[0, 1.0, 0]} // Positioned slightly above the main value label
-      fontSize={0.3}
+      position={[0, 0.9, 0]} // Positioned slightly above the main value label
+      fontSize={0.21}
       color={color}
       anchorX="center"
       anchorY="middle"

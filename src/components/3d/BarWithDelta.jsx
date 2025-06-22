@@ -13,7 +13,7 @@ import { DeltaLabel } from './DeltaLabel'; //
  * @param {number} props.previousValue - The value from the previous data row.
  * @param {number} props.currentValue - The value from the current data row.
  */
-export function BarWithDelta({ previousValue, currentValue }) {
+export function BarWithDelta({ previousValue, currentValue, value }) {
   const delta = currentValue - previousValue;
 
   const { baseHeight, posDeltaHeight, negDeltaHeight } = useSpring({
@@ -39,7 +39,7 @@ export function BarWithDelta({ previousValue, currentValue }) {
     <>
       {/* --- NEW: Group for positioning the labels --- */}
       <animated.group position-y={animatedCurrentHeight}>
-        <ValueLabel animatedProps={valueLabelProps} />
+        <ValueLabel animatedProps={valueLabelProps} value={value} />
         <DeltaLabel delta={delta} />
       </animated.group>
 

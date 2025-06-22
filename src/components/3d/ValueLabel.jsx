@@ -8,7 +8,7 @@ const AnimatedText = animated(Text);
 /**
  * Renders a 3D text label that displays the main value of a bar.
  */
-export function ValueLabel({ animatedProps }) {
+export function ValueLabel({ animatedProps, value }) {
   // The <Text> component from drei needs to be wrapped with `animated`
   // to accept an animated value as a child.
   return (
@@ -19,7 +19,7 @@ export function ValueLabel({ animatedProps }) {
       anchorX="center"
       anchorY="middle"
     >
-      {animatedProps.springHeight.to(h => Math.round(h * 10))}
+      {value}
     </AnimatedText>
   );
 }

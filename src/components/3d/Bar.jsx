@@ -4,7 +4,7 @@ import { useSpring, animated } from '@react-spring/three';
 import { Edges } from '@react-three/drei';
 import { ValueLabel } from './ValueLabel'; // Import the new component
 
-export function Bar({ position, height, color }) {
+export function Bar({ position, height, color, value }) {
   // Pass the entire spring object to the label component
   const animatedProps = useSpring({
     springHeight: height,
@@ -30,7 +30,7 @@ export function Bar({ position, height, color }) {
       </animated.mesh>
       
       <animated.group position-y={animatedProps.springHeight.to(h => h / 2)}>
-        <ValueLabel animatedProps={animatedProps} />
+        <ValueLabel animatedProps={animatedProps} value={value} />
       </animated.group>
     </animated.group>
   );

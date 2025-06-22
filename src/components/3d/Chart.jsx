@@ -6,68 +6,83 @@ import { Bar } from './Bar';
 import { AxesAndLabels } from './AxesAndLabels';
 import { BarWithDelta } from './BarWithDelta';
 import { Edges } from '@react-three/drei';
+import { getChartScale } from '../../utils/scaling';
+
+// A constant defining the total height of our chart in the 3D scene
+const CHART_MAX_HEIGHT = 5;
 
 export function Chart({ rowIndex }) {
   const { currentChartData, isDifferenceMode } = useSelector((state) => state.chart);
 
-  const chartData = useMemo(() => {
+  // useMemo will now also calculate the dynamic scale
+  const chartDisplayData = useMemo(() => {
     if (!currentChartData || !currentChartData.data[rowIndex]) return null;
+    
+    // Get the dynamic scale for the entire dataset
+    const { yMax, valueLabels } = getChartScale(currentChartData);
 
     const BAR_SPACING = 0.75;
     const values = currentChartData.data[rowIndex].values;
-    // The chart's total width is the number of gaps between bars * spacing
     const chartWidth = (values.length - 1) * BAR_SPACING;
-    // The shift required to center the chart at the origin
     const horizontalShift = chartWidth / 2;
 
     return { 
       values, 
       columnNames: currentChartData.columnNames,
-      valueLabels: currentChartData.valueLabels,
+      dynamicValueLabels: valueLabels, // Use the dynamically generated labels
+      yMax, // The new maximum value for the Y-axis
       BAR_SPACING, 
       horizontalShift,
-      chartWidth, // Pass the calculated width for the base
+      chartWidth,
     };
   }, [currentChartData, rowIndex]);
 
-  if (!chartData) return null;
+  if (!chartDisplayData) return null;
 
   const previousRowData = currentChartData.data[rowIndex - 1];
 
   return (
-    <group position={[-chartData.horizontalShift, -2.5, 0]}>
-      <mesh position={[chartData.horizontalShift, -0.01, 0]}>
-        <boxGeometry args={[chartData.chartWidth + 0.75, 0.01, 0.6]} />
-        <meshBasicMaterial color="#777777" />
-        <Edges color="black" transparent opacity={0.5} />
+    <group position={[-chartDisplayData.horizontalShift, -2.5, 0]}>
+      <mesh position={[chartDisplayData.horizontalShift, -0.005, 0]}>
+        <boxGeometry args={[chartDisplayData.chartWidth + 1.5, 0.01, 0.6]} />
+        <meshBasicMaterial color="#333333" />
       </mesh>
 
       <AxesAndLabels 
-        columnNames={chartData.columnNames}
-        valueLabels={chartData.valueLabels}
-        barSpacing={chartData.BAR_SPACING}
+        columnNames={chartDisplayData.columnNames}
+        valueLabels={chartDisplayData.dynamicValueLabels} // Pass the new labels
+        barSpacing={chartDisplayData.BAR_SPACING}
       />
-      {chartData.values.map((value, index) => {
-        const xPosition = index * chartData.BAR_SPACING;
+      {chartDisplayData.values.map((value, index) => {
+        const xPosition = index * chartDisplayData.BAR_SPACING;
+        
+        // --- UPDATED HEIGHT CALCULATION ---
+        // Bar height is now a percentage of the max height, based on the dynamic yMax.
+        const height = (parseFloat(value) / chartDisplayData.yMax) * CHART_MAX_HEIGHT;
 
         if (isDifferenceMode && rowIndex > 0 && previousRowData) {
           const currentValue = parseFloat(value) || 0;
           const previousValue = parseFloat(previousRowData.values[index]) || 0;
+          
+          // Normalize the values against the dynamic yMax before passing to the component
+          const normalizedCurrent = (currentValue / chartDisplayData.yMax) * CHART_MAX_HEIGHT;
+          const normalizedPrevious = (previousValue / chartDisplayData.yMax) * CHART_MAX_HEIGHT;
 
           return (
             <group key={index} position={[xPosition, 0, 0]}>
               <BarWithDelta 
-                previousValue={previousValue} 
-                currentValue={currentValue} 
+                previousValue={normalizedPrevious * 10}
+                currentValue={normalizedCurrent * 10}
+                value={value}
               />
             </group>
           );
         }
 
-        const height = parseFloat(value) / 10 || 0;
         return (
           <Bar
             key={index}
+            value={value}
             position={[xPosition, 0, 0]}
             height={height}
             color="#5555ff"
