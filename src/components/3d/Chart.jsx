@@ -56,24 +56,16 @@ export function Chart({ rowIndex }) {
       {chartDisplayData.values.map((value, index) => {
         const xPosition = index * chartDisplayData.BAR_SPACING;
         
-        // --- UPDATED HEIGHT CALCULATION ---
-        // Bar height is now a percentage of the max height, based on the dynamic yMax.
-        const height = (parseFloat(value) / chartDisplayData.yMax) * CHART_MAX_HEIGHT;
-
         if (isDifferenceMode && rowIndex > 0 && previousRowData) {
-          const currentValue = parseFloat(value) || 0;
-          const previousValue = parseFloat(previousRowData.values[index]) || 0;
-          
-          // Normalize the values against the dynamic yMax before passing to the component
-          const normalizedCurrent = (currentValue / chartDisplayData.yMax) * CHART_MAX_HEIGHT;
-          const normalizedPrevious = (previousValue / chartDisplayData.yMax) * CHART_MAX_HEIGHT;
+          const originalValue = parseFloat(value) || 0;
+          const originalPreviousValue = parseFloat(previousRowData.values[index]) || 0;
 
           return (
             <group key={index} position={[xPosition, 0, 0]}>
-              <BarWithDelta 
-                previousValue={normalizedPrevious * 10}
-                currentValue={normalizedCurrent * 10}
-                value={value}
+              <BarWithDelta
+                currentValue={originalValue}
+                previousValue={originalPreviousValue}
+                yMax={chartDisplayData.yMax}
               />
             </group>
           );
@@ -84,7 +76,7 @@ export function Chart({ rowIndex }) {
             key={index}
             value={value}
             position={[xPosition, 0, 0]}
-            height={height}
+            height={(parseFloat(value) / chartDisplayData.yMax) * CHART_MAX_HEIGHT}
             color="#5555ff"
           />
         );

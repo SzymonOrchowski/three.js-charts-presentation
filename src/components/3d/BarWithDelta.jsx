@@ -6,40 +6,37 @@ import { useMemo } from 'react'; // Import useMemo
 import { ValueLabel } from './ValueLabel'; // Import the new components
 import { DeltaLabel } from './DeltaLabel'; //
 
+const CHART_MAX_HEIGHT = 5; // The max height of the chart in 3D space
+
 /**
- * Renders a bar that visually represents the difference between a previous and current value,
- * including the original transparency settings.
- * @param {object} props
- * @param {number} props.previousValue - The value from the previous data row.
- * @param {number} props.currentValue - The value from the current data row.
+ * Renders a bar that visually represents the difference between a previous and current value.
  */
-export function BarWithDelta({ previousValue, currentValue, value }) {
+export function BarWithDelta({ previousValue, currentValue, yMax }) {
   const delta = currentValue - previousValue;
 
-  const { baseHeight, posDeltaHeight, negDeltaHeight } = useSpring({
-    baseHeight: (delta >= 0 ? previousValue : currentValue) / 10,
-    posDeltaHeight: (delta > 0 ? delta : 0) / 10,
-    negDeltaHeight: (delta < 0 ? Math.abs(delta) : 0) / 10,
-    config: { tension: 100, friction: 26 },
-  });
+  // Perform all scaling calculations inside this component for consistency.
+  const scaled = useMemo(() => {
+    if (yMax === 0) return { current: 0, previous: 0 }; // Avoid division by zero
+    return {
+      current: (currentValue / yMax) * CHART_MAX_HEIGHT,
+      previous: (previousValue / yMax) * CHART_MAX_HEIGHT,
+    }
+  }, [currentValue, previousValue, yMax]);
 
-  // --- NEW: Spring for the final height to position labels correctly ---
-  const { animatedCurrentHeight } = useSpring({
-    animatedCurrentHeight: currentValue / 10,
+  // A single, stable useSpring hook that uses the correct scaled values.
+  const { animatedCurrentHeight, baseHeight, posDeltaHeight, negDeltaHeight } = useSpring({
+    animatedCurrentHeight: scaled.current,
+    baseHeight: delta >= 0 ? scaled.previous : scaled.current,
+    posDeltaHeight: delta > 0 ? scaled.current - scaled.previous : 0,
+    negDeltaHeight: delta < 0 ? scaled.previous - scaled.current : 0,
     config: { tension: 170, friction: 26 },
   });
 
-  // --- NEW: Memoized props for the ValueLabel component ---
-  const valueLabelProps = useMemo(() => ({
-      springHeight: animatedCurrentHeight
-  }), [animatedCurrentHeight]);
-
-
   return (
     <>
-      {/* --- NEW: Group for positioning the labels --- */}
+      {/* Labels use the original, unscaled values and are positioned by the final animated height */}
       <animated.group position-y={animatedCurrentHeight}>
-        <ValueLabel animatedProps={valueLabelProps} value={value} />
+        <ValueLabel value={currentValue} />
         <DeltaLabel delta={delta} />
       </animated.group>
 
@@ -54,32 +51,28 @@ export function BarWithDelta({ previousValue, currentValue, value }) {
 
       {/* Positive Delta Bar (Green) */}
       {
-        delta > 0 
-        ?
-            <animated.group position-y={baseHeight.to(h => h + 0.001)} scale-y={posDeltaHeight}>
-                <mesh position-y={0.5} castShadow>
-                    <boxGeometry args={[0.5, 1, 0.5]} />
-                    <meshStandardMaterial color="#46AB64" emissive="#46AB64" emissiveIntensity={1.5} toneMapped={false}/>
-                    <Edges color="black" />
-                </mesh>
-            </animated.group>
-        : 
-        null
+        delta > 0 && (
+          <animated.group position-y={baseHeight.to(h => h + 0.001)} scale-y={posDeltaHeight}>
+            <mesh position-y={0.5} castShadow>
+              <boxGeometry args={[0.5, 1, 0.5]} />
+              <meshStandardMaterial color="#46AB64" emissive="#46AB64" emissiveIntensity={1.5} toneMapped={false}/>
+              <Edges color="black" />
+            </mesh>
+          </animated.group>
+        )
       }
       
-      {/* Negative Delta Ghost Bar (Red) - With original transparency */}
+      {/* Negative Delta Ghost Bar (Red) */}
       {
-        delta < 0 
-        ?
-        <animated.group position-y={baseHeight.to(h => h + 0.001)} scale-y={negDeltaHeight}>
+        delta < 0 && (
+          <animated.group position-y={baseHeight.to(h => h + 0.001)} scale-y={negDeltaHeight}>
             <mesh position-y={0.5}>
-                <boxGeometry args={[0.5, 1, 0.5]} />
-                <meshStandardMaterial color="#AA0000" transparent emissive="#aa0000" emissiveIntensity={0.3} opacity={0.3} depthWrite={false}/>
-                <Edges color="#aa0000" transparent opacity={0.5} />
+              <boxGeometry args={[0.5, 1, 0.5]} />
+              <meshStandardMaterial color="#AA0000" transparent emissive="#aa0000" emissiveIntensity={0.3} opacity={0.3} depthWrite={false}/>
+              <Edges color="#aa0000" transparent opacity={0.5} />
             </mesh>
-        </animated.group>
-        : 
-        null
+          </animated.group>
+        )
       }
     </>
   );
