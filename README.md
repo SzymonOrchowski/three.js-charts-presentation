@@ -4,7 +4,7 @@ This project is a dynamic, web-based data visualization tool built with Next.js 
 
 **Live Demo:** https://3d-bar-chart.netlify.app/
 
-![Application Screenshot](./public/img/screenshot.png)
+![Application Screenshot](./public/img/Screenshot.png)
 
 ## Key Features
 
