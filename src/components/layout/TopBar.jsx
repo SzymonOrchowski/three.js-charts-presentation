@@ -38,22 +38,16 @@ export function TopBar({ activeView, setActiveView }) {
       {/* Updated tab container background */}
       <div className="flex space-x-2 p-1 bg-gray-800 rounded-lg">
         <button
-          onClick={() => setActiveView('spreadsheet')}
-          className={`${baseClasses} ${activeView === 'spreadsheet' ? activeClasses : inactiveClasses}`}
-        >
-          Spreadsheet
-        </button>
-        <button
           onClick={() => setActiveView('visualization')}
           className={`${baseClasses} ${activeView === 'visualization' ? activeClasses : inactiveClasses}`}
         >
           Visualization
         </button>
         <button
-          onClick={() => setActiveView('background')}
-          className={`${baseClasses} ${activeView === 'background' ? activeClasses : inactiveClasses}`}
+          onClick={() => setActiveView('spreadsheet')}
+          className={`${baseClasses} ${activeView === 'spreadsheet' ? activeClasses : inactiveClasses}`}
         >
-          Background
+          Spreadsheet
         </button>
       </div>
     </nav>
