@@ -19,7 +19,7 @@ export function AxesAndLabels({ columnNames, valueLabels, barSpacing }) {
     <>
       {/* Horizontal Axis (X-axis) */}
       <mesh position={[chartWidth / 2, -0.05, 0]}>
-        <boxGeometry args={[chartWidth + 0.75, axisLineWidth, axisLineWidth]} />
+        <boxGeometry args={[chartWidth + 1, axisLineWidth, axisLineWidth]} />
         <meshBasicMaterial color={axisColor} />
       </mesh>
       
@@ -33,16 +33,17 @@ export function AxesAndLabels({ columnNames, valueLabels, barSpacing }) {
       {columnNames.map((name, index) => {
         const xPos = index * barSpacing;
         return (
-          <Billboard key={name} position={[xPos, -0.5, 0]}>
-            <Text
-              fontSize={0.3}
-              color="white"
-              anchorX="center"
-              anchorY="middle"
-            >
-              {name}
-            </Text>
-          </Billboard>
+          <Text
+            key={name}
+            position={[xPos, -0.1, 0]}
+            fontSize={0.2}
+            color="white"
+            anchorX="left"
+            anchorY="top"
+            rotation={[0, 0, -Math.PI / 4]}
+          >
+            {name}
+          </Text>
         );
       })}
 
@@ -52,7 +53,7 @@ export function AxesAndLabels({ columnNames, valueLabels, barSpacing }) {
         return (
           <Billboard key={label} position={[-0.8, yPos, 0]}>
             <Text
-              fontSize={0.3}
+              fontSize={0.2}
               color="white"
               anchorX="right"
               anchorY="middle"

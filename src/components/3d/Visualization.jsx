@@ -44,6 +44,8 @@ export function Visualization() {
 
       <Canvas
         flat
+        gl={{ antialias: true, alpha: true }}
+        dpr={[1, 2]} 
         camera={{
           position: [0, 2, 12],
           fov: 35,
