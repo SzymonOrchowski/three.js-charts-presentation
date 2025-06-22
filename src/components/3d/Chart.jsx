@@ -10,6 +10,7 @@ import { getChartScale } from '../../utils/scaling';
 
 // A constant defining the total height of our chart in the 3D scene
 const CHART_MAX_HEIGHT = 5;
+const MIN_BAR_HEIGHT = 0.01; // The minimum height for a bar
 
 export function Chart({ rowIndex }) {
   const { currentChartData, isDifferenceMode } = useSelector((state) => state.chart);
@@ -71,12 +72,14 @@ export function Chart({ rowIndex }) {
           );
         }
 
+        const height = (parseFloat(value) / chartDisplayData.yMax) * CHART_MAX_HEIGHT;
+
         return (
           <Bar
             key={index}
             value={value}
             position={[xPosition, 0, 0]}
-            height={(parseFloat(value) / chartDisplayData.yMax) * CHART_MAX_HEIGHT}
+            height={Math.max(height, MIN_BAR_HEIGHT)}
             color="#5555ff"
           />
         );

@@ -7,28 +7,35 @@ import { ValueLabel } from './ValueLabel'; // Import the new components
 import { DeltaLabel } from './DeltaLabel'; //
 
 const CHART_MAX_HEIGHT = 5; // The max height of the chart in 3D space
+const MIN_BAR_HEIGHT = 0.01; // The minimum height for a bar
 
 /**
  * Renders a bar that visually represents the difference between a previous and current value.
  */
 export function BarWithDelta({ previousValue, currentValue, yMax }) {
-  const delta = currentValue - previousValue;
-
   // Perform all scaling calculations inside this component for consistency.
-  const scaled = useMemo(() => {
-    if (yMax === 0) return { current: 0, previous: 0 }; // Avoid division by zero
-    return {
-      current: (currentValue / yMax) * CHART_MAX_HEIGHT,
-      previous: (previousValue / yMax) * CHART_MAX_HEIGHT,
-    }
+  const { finalCurrent, finalPrevious, delta } = useMemo(() => {
+    if (yMax === 0) return { finalCurrent: 0, finalPrevious: 0, delta: 0 };
+    
+    const scaledCurrent = (currentValue / yMax) * CHART_MAX_HEIGHT;
+    const scaledPrevious = (previousValue / yMax) * CHART_MAX_HEIGHT;
+    
+    // Apply minimum height to both scaled values
+    const finalCurrent = Math.max(scaledCurrent, MIN_BAR_HEIGHT);
+    const finalPrevious = Math.max(scaledPrevious, MIN_BAR_HEIGHT);
+    
+    // Use the original unscaled values for the delta calculation
+    const delta = currentValue - previousValue; 
+    
+    return { finalCurrent, finalPrevious, delta };
   }, [currentValue, previousValue, yMax]);
 
-  // A single, stable useSpring hook that uses the correct scaled values.
+  // A single, stable useSpring hook that uses the new final values.
   const { animatedCurrentHeight, baseHeight, posDeltaHeight, negDeltaHeight } = useSpring({
-    animatedCurrentHeight: scaled.current,
-    baseHeight: delta >= 0 ? scaled.previous : scaled.current,
-    posDeltaHeight: delta > 0 ? scaled.current - scaled.previous : 0,
-    negDeltaHeight: delta < 0 ? scaled.previous - scaled.current : 0,
+    animatedCurrentHeight: finalCurrent,
+    baseHeight: delta >= 0 ? finalPrevious : finalCurrent,
+    posDeltaHeight: delta > 0 ? finalCurrent - finalPrevious : 0,
+    negDeltaHeight: delta < 0 ? finalPrevious - finalCurrent : 0,
     config: { tension: 170, friction: 26 },
   });
 
