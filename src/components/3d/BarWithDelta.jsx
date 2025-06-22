@@ -74,7 +74,7 @@ export function BarWithDelta({ previousValue, currentValue }) {
         <animated.group position-y={baseHeight.to(h => h + 0.001)} scale-y={negDeltaHeight}>
             <mesh position-y={0.5}>
                 <boxGeometry args={[0.5, 1, 0.5]} />
-                <meshStandardMaterial color="#AA0000" transparent emissive="#aa0000" emissiveIntensity={0.3} opacity={0.3}/>
+                <meshStandardMaterial color="#AA0000" transparent emissive="#aa0000" emissiveIntensity={0.3} opacity={0.3} depthWrite={false}/>
                 <Edges color="#aa0000" transparent opacity={0.5} />
             </mesh>
         </animated.group>
