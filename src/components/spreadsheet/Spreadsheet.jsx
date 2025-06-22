@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   updateCellValue,
@@ -9,7 +9,8 @@ import {
   addColumn,
   deleteColumn,
   addRow,
-  deleteRow
+  deleteRow,
+  renamePreset // Import the renamePreset action
 } from '../../store/chartSlice';
 import { ContextMenu } from '../layout/ContextMenu';
 import { ResizableHeader } from './ResizableHeader';
@@ -20,18 +21,39 @@ import { AnimatedGradientBackground } from '../layout/AnimatedGradientBackground
  */
 export function Spreadsheet() {
   const dispatch = useDispatch();
-  const { chartData } = useSelector((state) => ({
+  const { chartData, activePresetName } = useSelector((state) => ({
     chartData: state.chart.currentChartData,
+    activePresetName: state.chart.activePresetName,
   }));
   
   const [columnWidths, setColumnWidths] = useState([]);
-  const tableRef = useRef(null);
+  const [editableTitle, setEditableTitle] = useState(activePresetName);
+
+  useEffect(() => {
+    setEditableTitle(activePresetName);
+  }, [activePresetName]);
 
   useEffect(() => {
     if (chartData?.columnNames) {
       setColumnWidths([160, ...Array(chartData.columnNames.length).fill(128)]);
     }
   }, [chartData?.columnNames.length]);
+
+  const handleTitleChange = (e) => {
+    setEditableTitle(e.target.value);
+  };
+
+  const handleTitleBlur = () => {
+    if (editableTitle !== activePresetName) {
+      dispatch(renamePreset({ oldName: activePresetName, newName: editableTitle }));
+    }
+  };
+
+  const handleTitleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.target.blur();
+    }
+  };
 
   const handleValueChange = (rowIndex, valueIndex, event) => {
     dispatch(updateCellValue({ rowIndex, valueIndex, newValue: event.target.value }));
@@ -70,15 +92,27 @@ export function Spreadsheet() {
   );
 
   const inputBaseStyles = "w-full h-full p-2 bg-transparent focus:bg-slate-700/50 focus:ring-2 focus:ring-blue-500 focus:outline-none";
-  const dataInputStyles = "w-full h-full p-2 bg-transparent focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none text-right font-mono text-gray-800";
 
   return (
     <div className="w-full h-full p-4 sm:p-8 relative">
       <AnimatedGradientBackground />
       
       <div className="max-w-full mx-auto">
-        <h1 className="text-2xl font-bold mb-4 text-slate-100">Spreadsheet</h1>
-        <div className="overflow-auto h-[calc(100vh-12rem)] rounded-lg border border-slate-700 bg-slate-800/50 backdrop-blur-lg">
+        <div className="flex items-center gap-x-3 p-2 rounded-t-lg border border-slate-700 bg-slate-800/50 backdrop-blur-lg mb-0">
+          <label htmlFor="spreadsheet-title" className="text-xl font-bold text-slate-300 whitespace-nowrap">
+            Title:
+          </label>
+          <input
+            id="spreadsheet-title"
+            type="text"
+            value={editableTitle}
+            onChange={handleTitleChange}
+            onBlur={handleTitleBlur}
+            onKeyDown={handleTitleKeyDown}
+            className="w-full text-2xl font-semibold text-slate-100 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md px-2"
+          />
+        </div>
+        <div className="overflow-auto h-[calc(100vh-14rem)] rounded-b-lg border-x border-b border-slate-700 bg-slate-800/50 backdrop-blur-lg">
           <table className="min-w-full text-sm border-collapse">
             <colgroup>
               {columnWidths.map((width, index) => (
