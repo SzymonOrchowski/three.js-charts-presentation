@@ -27,7 +27,7 @@ export function TopBar({ activeView, setActiveView }) {
           id="preset-select" 
           value={activePresetName} 
           onChange={handlePresetChange} 
-          className="rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
         >
           {presetNames.map(name => (
             <option key={name} value={name}>{name}</option>
