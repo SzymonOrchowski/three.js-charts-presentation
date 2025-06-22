@@ -2,6 +2,9 @@
 
 import { useSpring, animated } from '@react-spring/three';
 import { Edges } from '@react-three/drei';
+import { useMemo } from 'react'; // Import useMemo
+import { ValueLabel } from './ValueLabel'; // Import the new components
+import { DeltaLabel } from './DeltaLabel'; //
 
 /**
  * Renders a bar that visually represents the difference between a previous and current value,
@@ -20,10 +23,26 @@ export function BarWithDelta({ previousValue, currentValue }) {
     config: { tension: 170, friction: 26 },
   });
 
-  console.log('baseHeight -> ', baseHeight, '\nposDeltaHeight -> ', posDeltaHeight, '\nnegDeltaHeight -> ', negDeltaHeight);
+  // --- NEW: Spring for the final height to position labels correctly ---
+  const { animatedCurrentHeight } = useSpring({
+    animatedCurrentHeight: currentValue / 10,
+    config: { tension: 170, friction: 26 },
+  });
+
+  // --- NEW: Memoized props for the ValueLabel component ---
+  const valueLabelProps = useMemo(() => ({
+      springHeight: animatedCurrentHeight
+  }), [animatedCurrentHeight]);
+
 
   return (
     <>
+      {/* --- NEW: Group for positioning the labels --- */}
+      <animated.group position-y={animatedCurrentHeight}>
+        <ValueLabel animatedProps={valueLabelProps} />
+        <DeltaLabel delta={delta} />
+      </animated.group>
+
       {/* Base Bar */}
       <animated.group scale-y={baseHeight}>
         <mesh position-y={0.5} castShadow>

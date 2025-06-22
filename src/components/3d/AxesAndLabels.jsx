@@ -41,7 +41,7 @@ export function AxesAndLabels({ columnNames, valueLabels, barSpacing }) {
             </mesh>
             {/* The HTML label */}
             <Html position={[0, -0.25, 0]}>
-              <div className="text-xs w-20 -translate-x-1/2 text-center text-slate-700 border border-slate-300 bg-white/80 px-1 py-0.5 rounded">
+              <div className="text-xs -translate-x-1/2 text-center text-slate-700 border border-slate-300 bg-white/80 px-1 py-0.5 rounded">
                 {name}
               </div>
             </Html>
