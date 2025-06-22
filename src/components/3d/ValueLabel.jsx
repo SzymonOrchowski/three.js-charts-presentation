@@ -1,24 +1,25 @@
 "use client";
 
-import { Html } from '@react-three/drei';
-import { animated } from '@react-spring/web';
+import { Text } from '@react-three/drei';
+import { animated } from '@react-spring/three';
+
+const AnimatedText = animated(Text);
 
 /**
- * Renders an HTML label that displays the main value of a bar.
+ * Renders a 3D text label that displays the main value of a bar.
  */
 export function ValueLabel({ animatedProps }) {
+  // The <Text> component from drei needs to be wrapped with `animated`
+  // to accept an animated value as a child.
   return (
-    <Html position={[-0.2, 0.85, 0]}>
-      <animated.div
-        className="px-2 py-1 text-xs text-black bg-white/70 rounded-md"
-        style={{
-          opacity: animatedProps.springHeight.to(h => (h > 0.05 ? 1 : 0)),
-        }}
-      >
-        <animated.span>
-          {animatedProps.springHeight.to(h => Math.round(h * 10))}
-        </animated.span>
-      </animated.div>
-    </Html>
+    <AnimatedText
+      position={[0, 0.5, 0]}
+      fontSize={0.4}
+      color="white"
+      anchorX="center"
+      anchorY="middle"
+    >
+      {animatedProps.springHeight.to(h => Math.round(h * 10))}
+    </AnimatedText>
   );
 }

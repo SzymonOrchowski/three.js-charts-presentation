@@ -20,7 +20,7 @@ export function BarWithDelta({ previousValue, currentValue }) {
     baseHeight: (delta >= 0 ? previousValue : currentValue) / 10,
     posDeltaHeight: (delta > 0 ? delta : 0) / 10,
     negDeltaHeight: (delta < 0 ? Math.abs(delta) : 0) / 10,
-    config: { tension: 170, friction: 26 },
+    config: { tension: 100, friction: 26 },
   });
 
   // --- NEW: Spring for the final height to position labels correctly ---

@@ -1,36 +1,42 @@
 "use client";
 
 import { useMemo } from 'react';
-import { Html } from '@react-three/drei';
+import { Text } from '@react-three/drei';
 
 /**
- * Renders the change (delta) value with appropriate color.
- * @param {object} props
- * @param {number} props.delta - The calculated difference.
+ * Renders the change (delta) value as 3D text with appropriate color.
  */
 export function DeltaLabel({ delta }) {
-  // Memoize the label's style and text based on the delta value
-  const { label, className } = useMemo(() => {
-    if (delta > 0) {
+  const { label, color } = useMemo(() => {
+    const roundedDelta = Math.round(delta);
+    if (roundedDelta > 0) {
       return {
-        label: `∆ +${Math.round(delta)}`,
-        className: 'text-green-600',
+        label: `∆ +${roundedDelta}`,
+        color: '#65f58d', // A bright green to catch the bloom
       };
-    } else if (delta < 0) {
+    } else if (roundedDelta < 0) {
       return {
-        label: `∆ ${Math.round(delta)}`,
-        className: 'text-red-600',
+        label: `∆ ${roundedDelta}`,
+        color: '#f56565', // A bright red
       };
     }
-    return { label: '∆ 0', className: 'text-black' };
+    return { label: '', color: 'white' };
   }, [delta]);
 
+  if (Math.round(delta) === 0) return null;
+
   return (
-    // Position this HTML element relative to its parent in 3D space
-    <Html position={[-0.3, 0.4, 0]}> 
-      <div className={`px-2 py-1 text-[9px] bg-white/70 rounded-md whitespace-nowrap ${className}`}>
-        {label}
-      </div>
-    </Html>
+    <Text
+      position={[0, 1.0, 0]} // Positioned slightly above the main value label
+      fontSize={0.3}
+      color={color}
+      anchorX="center"
+      anchorY="middle"
+      emissive={color}
+      emissiveIntensity={2}
+      toneMapped={false}
+    >
+      {label}
+    </Text>
   );
 }

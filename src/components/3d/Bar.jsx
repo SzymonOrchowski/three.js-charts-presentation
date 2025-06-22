@@ -9,7 +9,7 @@ export function Bar({ position, height, color }) {
   const animatedProps = useSpring({
     springHeight: height,
     springY: height / 2,
-    config: { tension: 170, friction: 26 },
+    config: { tension: 100, friction: 26 },
   });
 
   return (
@@ -27,9 +27,11 @@ export function Bar({ position, height, color }) {
           toneMapped={false}
         />
         <Edges color="black" />
-        {/* Add the label as a child of the mesh */}
-        <ValueLabel animatedProps={animatedProps} />
       </animated.mesh>
+      
+      <animated.group position-y={animatedProps.springHeight.to(h => h / 2)}>
+        <ValueLabel animatedProps={animatedProps} />
+      </animated.group>
     </animated.group>
   );
 }
