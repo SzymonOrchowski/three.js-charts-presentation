@@ -49,6 +49,12 @@ export function TopBar({ activeView, setActiveView }) {
         >
           Visualization
         </button>
+        <button
+          onClick={() => setActiveView('background')}
+          className={`${baseClasses} ${activeView === 'background' ? activeClasses : inactiveClasses}`}
+        >
+          Background
+        </button>
       </div>
     </nav>
   );

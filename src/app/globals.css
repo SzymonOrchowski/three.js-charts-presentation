@@ -29,3 +29,60 @@ body {
   background: url('/img/BackgroundPaper.jpg');
   background-size: cover;
 }
+
+/* Keyframe animations for the background blobs */
+@keyframes move-blob-1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  50% {
+    transform: translate(300px, 150px) scale(0.9);
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+}
+
+@keyframes move-blob-2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+  }
+  50% {
+    transform: translate(-300px, -100px) scale(1.1);
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+  }
+}
+
+@keyframes move-blob-3 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    border-radius: 70% 30% 40% 60% / 60% 70% 30% 40%;
+  }
+  50% {
+    transform: translate(100px, -200px) scale(1.05);
+    border-radius: 40% 60% 70% 30% / 40% 30% 70% 60%;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    border-radius: 70% 30% 40% 60% / 60% 70% 30% 40%;
+  }
+}
+
+/* Apply the animations to our custom classes */
+.animate-move-blob-1 {
+  animation: move-blob-1 15s infinite ease-in-out;
+}
+.animate-move-blob-2 {
+  animation: move-blob-2 18s infinite ease-in-out alternate; /* Added 'alternate' for more variety */
+}
+.animate-move-blob-3 {
+  animation: move-blob-3 20s infinite ease-in-out;
+}

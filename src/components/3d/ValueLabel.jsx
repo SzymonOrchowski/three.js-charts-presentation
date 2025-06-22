@@ -18,6 +18,7 @@ export function ValueLabel({ animatedProps, value }) {
       color="white"
       anchorX="center"
       anchorY="middle"
+      depthWrite={false}
     >
       {value}
     </AnimatedText>

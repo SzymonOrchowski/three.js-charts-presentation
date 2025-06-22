@@ -8,6 +8,7 @@ import { OrbitControls } from '@react-three/drei';
 import { Chart } from './Chart';
 import { EffectComposer, Bloom, ToneMapping } from '@react-three/postprocessing';
 import { ToneMappingMode } from 'postprocessing';
+import { AnimatedGradientBackground } from '../layout/AnimatedGradientBackground';
 
 export function Visualization() {
   const [currentRowIndex, setCurrentRowIndex] = useState(0);
@@ -25,12 +26,14 @@ export function Visualization() {
     setCurrentRowIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
-  // Dark mode button styles
-  const buttonClasses = "px-4 py-2 bg-gray-800 text-gray-200 rounded-md shadow-lg border border-gray-700 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed";
+  // Updated button classes for glassmorphism effect
+  const buttonClasses = "px-4 py-2 bg-gray-800/50 text-gray-200 rounded-md shadow-lg border border-gray-700 hover:bg-gray-700 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed";
 
   return (
-    // Removed 'chart-background' and set a solid dark color
-    <div className="w-full h-full relative bg-gray-900">
+    // MODIFIED: Replaced bg-gray-900 with bg-black for a deeper base color
+    <div className="w-full h-full relative">
+      <AnimatedGradientBackground />
+      
       <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex gap-4">
         <button onClick={handlePrev} disabled={currentRowIndex === 0} className={buttonClasses}>Prev</button>
         <button 
