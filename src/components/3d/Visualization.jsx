@@ -40,7 +40,7 @@ export function Visualization() {
       
       {/* --- NEW: DIV FOR CURRENT ROW NAME --- */}
       <div className="absolute top-4 left-4 z-10">
-        <div className={`px-4 py-2 text-gray-200 rounded-md shadow-lg border border-gray-700 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 text-2xl font-semibold bg-[rgba(255,255,255,0.2)]`}>
+        <div className={`px-4 py-2 text-gray-200 rounded-md shadow-lg border border-gray-700 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 text-2xl font-semibold bg-[rgba(255,255,255,0.025)]`}>
           {currentRowName}
         </div>
       </div>
